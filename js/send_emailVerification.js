@@ -55,12 +55,6 @@ $(document).ready(function () {
     $(".otp-box").first().focus();
   }
 
-  /* OLD Generate 6-digit code
-  function generateVerificationCode() {
-    correctCode = Math.floor(100000 + Math.random() * 900000).toString();
-    console.log("Generated Code:", correctCode);
-  }*/
-
   // Generate a random 6-digit code and send it via email
   function generateVerificationCode() {
     correctCode = Math.floor(100000 + Math.random() * 900000).toString();
@@ -114,12 +108,16 @@ $(document).ready(function () {
 
   // Verify button
   verifyBtn.on("click", function () {
+    //get the email from the input field
+    const email = document.getElementById("email-input").value;
+
     const enteredCode = $(".otp-box").map(function () {
       return $(this).val();
     }).get().join('');
 
     if (enteredCode === correctCode) {
-      window.location.href = "user-registration.html";
+      // Redirect to PHP file with email as a URL parameter
+      window.location.href = "user-registration.php?email=" + encodeURIComponent(email);
     } else {
       modal.modal('hide');
       $('#incorrectCodeModal').modal('show');
