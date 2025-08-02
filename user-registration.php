@@ -226,6 +226,24 @@
 
   </form>
 
+  <!-- Registration Success Modal -->
+  <div class="modal fade" id="registrationSuccessModal" tabindex="-1" aria-labelledby="registrationSuccessModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content text-center">
+        <div class="modal-header">
+          <h5 class="modal-title" id="registrationSuccessModalLabel">Registration Successful</h5>
+        </div>
+        <div class="modal-body">
+          Your account has been successfully created. You can now log in to your account.
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-success" data-bs-dismiss="modal" id="goToLoginBtn">Continue to Login</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
   <script src="js/address_Selection.js"></script>
   <script src="js/birthdate_Selection.js"></script>
   <script src="js/tooltip.js"></script><!-- ToolTip js -->

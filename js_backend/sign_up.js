@@ -70,7 +70,20 @@ $(document).ready(function () {
         data: formData,
         success: function (response) {
           console.log('Server response:', response);
-          alert('Registration successful! Please check your email for confirmation.');
+
+          // Show modal
+          $("#registrationSuccessModal").modal("show");
+
+          // After modal is closed, redirect to login page
+          $("#registrationSuccessModal").off("hidden.bs.modal").on("hidden.bs.modal", function () {
+            window.location.href = "log-in.php";
+          });
+          //or
+          // Redirect when "Continue" button is clicked
+          $("#goToLoginBtn").off("click").on("click", function () {
+            window.location.href = "log-in.php";
+          });
+
         },
         error: function (xhr, status, error) {
           console.error('AJAX Error:', error);
