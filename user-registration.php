@@ -80,8 +80,8 @@
     <!-- For First Name -->
     <div class="d-flex flex-column align-items-center w-100">
       <div class="w-50">
-        <label for="email-input" class="form-label">First Name</label>
-        <input type="email" id="email-input" placeholder="Thalia Gielyn" class="form-control" required>
+        <label for="first-name" class="form-label">First Name</label>
+        <input type="text" id="first-name" placeholder="Thalia Gielyn" class="form-control" required>
       </div>
     </div>
 
@@ -90,12 +90,12 @@
 
       <div class="w-50 d-flex flex-row justify-content-center align-items-center gap-3">
         <div>
-          <label for="email-input" class="form-label">Middle Name</label>
-          <input type="email" id="email-input" placeholder="Licuan" class="form-control" required>
+          <label for="middle-name" class="form-label">Middle Name</label>
+          <input type="text" id="middle-name" placeholder="Licuan" class="form-control" required>
         </div>
         <div>
-          <label for="email-input" class="form-label">Last Name</label>
-          <input type="email" id="email-input" placeholder="Sabado" class="form-control">
+          <label for="last-name" class="form-label">Last Name</label>
+          <input type="text" id="last-name" placeholder="Sabado" class="form-control" required>
         </div> 
       </div>
 
@@ -104,8 +104,8 @@
     <!-- Phone Number -->
     <div class="d-flex flex-column align-items-center w-100">
       <div class="w-50">
-        <label for="email-input" class="form-label">Phone Number</label>
-        <input type="email" id="email-input" placeholder="123456789101" class="form-control" required>
+        <label for="phone-number" class="form-label">Phone Number</label>
+        <input type="text" id="phone-number" placeholder="123456789101" class="form-control" required>
       </div>
     </div>
 
@@ -119,12 +119,12 @@
         <div class="d-flex gap-3">
           <!-- MALE -->
           <div class="form-control d-flex align-items-center gap-2 border rounded-2">
-            <input class="form-check-input cursor-pointer" type="radio" name="gender" id="genderMale" value="Male" required>
+            <input class="form-check-input cursor-pointer gender" type="radio" name="gender" id="genderMale" value="Male" required>
             <label class="form-check-label mb-0 cursor-pointer" for="genderMale">Male</label>
           </div>
           <!-- FEMALE -->
           <div class="form-control d-flex align-items-center gap-2 border rounded-2">
-            <input class="form-check-input cursor-pointer" type="radio" name="gender" id="genderFemale" value="Female" required>
+            <input class="form-check-input cursor-pointer gender" type="radio" name="gender" id="genderFemale" value="Female" required>
             <label class="form-check-label mb-0 cursor-pointer" for="genderFemale">Female</label>
           </div>
         </div>

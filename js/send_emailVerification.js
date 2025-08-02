@@ -24,9 +24,46 @@ $(document).ready(function () {
         emailInput.removeClass('shake');
       }, 500);
     } else {
-      emailInput.removeClass('is-invalid').addClass('is-valid');
-      emailFeedback.hide();
-      modal.modal('show');
+
+      console.log("Email to be verified:", email);
+
+      // Send AJAX request to PHP to verify email
+      $.ajax({
+        url: "php/check-existing-email.php",
+        method: "POST",
+        data: { email: email },
+        success: function (response) {
+
+          console.log("Email check response:", response);
+
+          // You can handle the response dynamically
+          if (response === "exists") {
+            const emailInput = $("#email-input");
+
+            // Show the modal
+            $("#emailExistsModal").modal("show");
+
+            // When the modal is hidden, clear the input
+            $("#emailExistsModal").off("hidden.bs.modal").on("hidden.bs.modal", function () {
+              emailInput.val("");
+            });
+
+          } else if (response === "ok") {
+
+            // If email is valid proceed
+            emailInput.removeClass('is-invalid').addClass('is-valid');
+            emailFeedback.hide();
+            modal.modal('show');
+
+          } else {
+            alert("Unexpected server response.");
+          }
+        },
+        error: function () {
+          alert("Server error occurred.");
+        }
+      });
+
     }
   });
 
