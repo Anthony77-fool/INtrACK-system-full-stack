@@ -84,6 +84,9 @@
       <div class="w-50">
         <label for="email-input" class="form-label">Email</label>
         <input type="email" id="email-input" placeholder="Enter your Email" class="form-control">
+        <div class="invalid-feedback" id="email-feedback">
+          Please enter a valid email address.
+        </div>
       </div>
     </div>
 
@@ -91,7 +94,10 @@
     <div class="d-flex flex-column align-items-center w-100">
       <div class="w-50">
         <label for="password" class="form-label">Password</label>
-        <input type="email" id="password" placeholder="*********" class="form-control">
+        <input type="password" id="password" placeholder="*********" class="form-control">
+        <div id="password-feedback" class="invalid-feedback">
+          Please enter the correct password.
+        </div>
       </div>
     </div>
     
@@ -109,16 +115,26 @@
     </div>
 
     <div class="d-flex-center w-100">
-      <button class="btn btn-success w-50 cstm-lttr-spcng fw-bold fs-5">Sign in</button>
+      <button class="btn btn-success w-50 cstm-lttr-spcng fw-bold fs-5" id="signInBtn">Sign in</button>
     </div>
 
     <!-- For Signing Up Link -->
     <div class="d-flex-center">
-      <a href="verify-email.html" class="text-decoration-none"><h6 class="text-success text-bolder fw-bolder cstm-lttr-spcng">Don't have an account?</h6></a>
+      <a href="verify-email.php" class="text-decoration-none"><h6 class="text-success text-bolder fw-bolder cstm-lttr-spcng">Don't have an account?</h6></a>
       <h6 class="ms-2 text-dark-emphasis cstm-lttr-spcng">Sign up</h6>
     </div>
     
   </section>
+
+  <!-- Toast for Login 'Account not exist' -->
+  <div class="toast-container position-fixed p-3">
+    <div id="loginToast" class="toast bg-danger text-white" role="alert">
+      <div class="toast-body">
+        Dont have an account yet? Please sign up first.
+      </div>
+    </div>
+  </div>
+
 
   <!-- PICTURE Section -->
   <section class="w-50 d-flex-center" id="picture_Section">
@@ -126,6 +142,8 @@
       <img src="images/Login-amico.png" alt="" class="w-100">
     </picture>
   </section>
+
+  <script src="js_backend/sign_in.js"></script>
 
 </body>
 </html>

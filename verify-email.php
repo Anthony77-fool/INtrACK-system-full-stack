@@ -143,6 +143,23 @@
     </div>
   </div>
 
+  <!-- Email Exists Modal -->
+  <div class="modal fade" id="emailExistsModal" tabindex="-1" aria-labelledby="emailExistsModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content text-center">
+        <div class="modal-header">
+          <h5 class="modal-title" id="emailExistsModalLabel">Email Already Exists</h5>
+        </div>
+        <div class="modal-body">
+          The email you entered is already registered. Please try another one.
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Okay</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <script src="js/send_emailVerification.js"></script>
 
   <!-- EMAIL JS For sending email verification otps -->

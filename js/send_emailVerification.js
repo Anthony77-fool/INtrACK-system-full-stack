@@ -24,9 +24,46 @@ $(document).ready(function () {
         emailInput.removeClass('shake');
       }, 500);
     } else {
-      emailInput.removeClass('is-invalid').addClass('is-valid');
-      emailFeedback.hide();
-      modal.modal('show');
+
+      console.log("Email to be verified:", email);
+
+      // Send AJAX request to PHP to verify email
+      $.ajax({
+        url: "php/check-existing-email.php",
+        method: "POST",
+        data: { email: email },
+        success: function (response) {
+
+          console.log("Email check response:", response);
+
+          // You can handle the response dynamically
+          if (response === "exists") {
+            const emailInput = $("#email-input");
+
+            // Show the modal
+            $("#emailExistsModal").modal("show");
+
+            // When the modal is hidden, clear the input
+            $("#emailExistsModal").off("hidden.bs.modal").on("hidden.bs.modal", function () {
+              emailInput.val("");
+            });
+
+          } else if (response === "ok") {
+
+            // If email is valid proceed
+            emailInput.removeClass('is-invalid').addClass('is-valid');
+            emailFeedback.hide();
+            modal.modal('show');
+
+          } else {
+            alert("Unexpected server response.");
+          }
+        },
+        error: function () {
+          alert("Server error occurred.");
+        }
+      });
+
     }
   });
 
@@ -54,12 +91,6 @@ $(document).ready(function () {
     $(".otp-box").val('');
     $(".otp-box").first().focus();
   }
-
-  /* OLD Generate 6-digit code
-  function generateVerificationCode() {
-    correctCode = Math.floor(100000 + Math.random() * 900000).toString();
-    console.log("Generated Code:", correctCode);
-  }*/
 
   // Generate a random 6-digit code and send it via email
   function generateVerificationCode() {
@@ -114,12 +145,16 @@ $(document).ready(function () {
 
   // Verify button
   verifyBtn.on("click", function () {
+    //get the email from the input field
+    const email = document.getElementById("email-input").value;
+
     const enteredCode = $(".otp-box").map(function () {
       return $(this).val();
     }).get().join('');
 
     if (enteredCode === correctCode) {
-      window.location.href = "user-registration.html";
+      // Redirect to PHP file with email as a URL parameter
+      window.location.href = "user-registration.php?email=" + encodeURIComponent(email);
     } else {
       modal.modal('hide');
       $('#incorrectCodeModal').modal('show');

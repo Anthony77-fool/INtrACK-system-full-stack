@@ -45,6 +45,13 @@
   <!-- 404 Error Page -->
   <link rel="stylesheet" href="css/pageErrorStyle.css">
 
+  <style>
+    /* Red border for input error */
+    .error {
+      border: 1px solid red;
+    }
+  </style>
+
 </head>
 <body class="d-flex flex-row">
 
@@ -56,7 +63,7 @@
   </section>
 
   <!-- Registration Section -->
-  <section class="w-50 border border-1 d-flex flex-column gap-4" id="email_Section" style="margin-left: 50%;">
+  <form class="w-50 border border-1 d-flex flex-column gap-4" id="signUp-form" style="margin-left: 50%;" method="POST">
 
     <header>
       <picture>
@@ -73,8 +80,8 @@
     <!-- For First Name -->
     <div class="d-flex flex-column align-items-center w-100">
       <div class="w-50">
-        <label for="email-input" class="form-label">First Name</label>
-        <input type="email" id="email-input" placeholder="Thalia Gielyn" class="form-control">
+        <label for="first-name" class="form-label">First Name</label>
+        <input type="text" id="first-name" placeholder="Thalia Gielyn" class="form-control" required>
       </div>
     </div>
 
@@ -83,12 +90,12 @@
 
       <div class="w-50 d-flex flex-row justify-content-center align-items-center gap-3">
         <div>
-          <label for="email-input" class="form-label">Middle Name</label>
-          <input type="email" id="email-input" placeholder="Licuan" class="form-control">
+          <label for="middle-name" class="form-label">Middle Name</label>
+          <input type="text" id="middle-name" placeholder="Licuan" class="form-control" required>
         </div>
         <div>
-          <label for="email-input" class="form-label">Last Name</label>
-          <input type="email" id="email-input" placeholder="Sabado" class="form-control">
+          <label for="last-name" class="form-label">Last Name</label>
+          <input type="text" id="last-name" placeholder="Sabado" class="form-control" required>
         </div> 
       </div>
 
@@ -97,8 +104,8 @@
     <!-- Phone Number -->
     <div class="d-flex flex-column align-items-center w-100">
       <div class="w-50">
-        <label for="email-input" class="form-label">Phone Number</label>
-        <input type="email" id="email-input" placeholder="123456789101" class="form-control">
+        <label for="phone-number" class="form-label">Phone Number</label>
+        <input type="text" id="phone-number" placeholder="123456789101" class="form-control" required>
       </div>
     </div>
 
@@ -112,12 +119,12 @@
         <div class="d-flex gap-3">
           <!-- MALE -->
           <div class="form-control d-flex align-items-center gap-2 border rounded-2">
-            <input class="form-check-input cursor-pointer" type="radio" name="gender" id="genderMale" value="Male">
+            <input class="form-check-input cursor-pointer gender" type="radio" name="gender" id="genderMale" value="Male" required>
             <label class="form-check-label mb-0 cursor-pointer" for="genderMale">Male</label>
           </div>
           <!-- FEMALE -->
           <div class="form-control d-flex align-items-center gap-2 border rounded-2">
-            <input class="form-check-input cursor-pointer" type="radio" name="gender" id="genderFemale" value="Female">
+            <input class="form-check-input cursor-pointer gender" type="radio" name="gender" id="genderFemale" value="Female" required>
             <label class="form-check-label mb-0 cursor-pointer" for="genderFemale">Female</label>
           </div>
         </div>
@@ -134,17 +141,17 @@
         
         <div class="d-flex flex-column w-100 gap-4">
           <!-- Province Dropdown -->
-          <select id="province" class="form-select cursor-pointer">
+          <select id="province" class="form-select cursor-pointer" required>
             <option selected disabled class="cursor-pointer">Select Province</option>
           </select>
 
           <!-- Municipality Dropdown -->
-          <select id="municipality" class="form-select cursor-pointer">
+          <select id="municipality" class="form-select cursor-pointer" required>
             <option selected disabled class="cursor-pointer">Select Municipality</option>
           </select>
 
           <!-- Barangay Dropdown -->
-          <select id="barangay" class="form-select cursor-pointer">
+          <select id="barangay" class="form-select cursor-pointer" required>
             <option selected disabled class="cursor-pointer">Select Barangay</option>
           </select>
         </div>
@@ -162,17 +169,17 @@
         <div class="d-flex flex-column gap-3">
           <!-- Month, Day Selects Container -->
           <div class="d-flex flex-row gap-3">
-            <select id="birthMonth" class="form-select cursor-pointer">
+            <select id="birthMonth" class="form-select cursor-pointer" required>
               <option selected disabled class="cursor-pointer">Select Month</option>
             </select>
             
-            <select id="birthDay" class="form-select cursor-pointer">
+            <select id="birthDay" class="form-select cursor-pointer" required>
               <option selected disabled class="cursor-pointer">Select Day</option>
             </select>
           </div>
 
           <!-- Year Select -->
-          <select id="birthYear" class="form-select cursor-pointer">
+          <select id="birthYear" class="form-select cursor-pointer" required>
             <option selected disabled class="cursor-pointer">Select Year</option>
           </select>
         </div>
@@ -180,8 +187,32 @@
 
     </div>
 
+    <!-- For New Password -->
+    <div class="d-flex flex-column align-items-center w-100" id="change-pass-newPassSection">
+      <div class="w-50">
+        <label for="new-password" class="form-label">New Password</label>
+        <div class="position-relative">
+          <input type="password" id="new-password" placeholder="Enter your New Password" class="form-control pr-5" required>
+          <i class="fa-solid fa-eye text-secondary toggle-password" data-target="#new-password"></i>
+        </div>
+      </div>
+    </div>
+
+    <!-- For Confirm Password -->
+    <div class="d-flex flex-column align-items-center w-100" id="change-pass-confirmPassSection">
+      <div class="w-50">
+        <label for="confirm-password" class="form-label">Confirm Password</label>
+        <div class="position-relative">
+          <input type="password" id="confirm-password" placeholder="Confirm your Password" class="form-control pr-5" required>
+          <i class="fa-solid fa-eye text-secondary toggle-password" data-target="#confirm-password"></i>
+        </div>
+        <div id="password-feedback" class="invalid-feedback">Please enter the correct password.</div>
+      </div>
+    </div>
+    
+    <!-- Sign Up btn -->
     <div class="d-flex-center w-100">
-      <button class="btn btn-success w-50 cstm-lttr-spcng fw-bold fs-5" id="signUp-btn">Sign Up</button>
+      <button class="btn btn-success w-50 cstm-lttr-spcng fw-bold fs-5" id="signUp-btn" type="submit">Sign Up</button>
     </div>
 
     <!-- User Notice -->
@@ -193,61 +224,31 @@
       </p>
     </div>
 
-  </section>
+  </form>
 
-  <!-- Email Verification Modal -->
-  <div class="modal fade" id="emailVerifyModal" tabindex="-1" aria-labelledby="emailVerifyModalLabel" aria-hidden="true">
+  <!-- Registration Success Modal -->
+  <div class="modal fade" id="registrationSuccessModal" tabindex="-1" aria-labelledby="registrationSuccessModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content">
-
+      <div class="modal-content text-center">
         <div class="modal-header">
-          <h5 class="modal-title text-info-emphasis fs-2" id="emailVerifyModalLabel">Verification Code</h5>
-          <i class="fa-solid fa-circle-xmark cursor-pointer fs-1" id="exit_Modal-icon" data-bs-dismiss="modal" title="Exit Form"></i><!-- ICON for exiting modal -->
+          <h5 class="modal-title" id="registrationSuccessModalLabel">Registration Successful</h5>
         </div>
-
         <div class="modal-body">
-          <p class="mb-2">We’ve sent a verification code to your email address. Please enter the 6-digit code below:</p>
-          
-          <div class="d-flex justify-content-center gap-2 mb-3" id="otpInputs">
-            <input type="text" maxlength="1" class="otp-box text-success" />
-            <input type="text" maxlength="1" class="otp-box text-success" />
-            <input type="text" maxlength="1" class="otp-box text-success" />
-            <input type="text" maxlength="1" class="otp-box text-success" />
-            <input type="text" maxlength="1" class="otp-box text-success" />
-            <input type="text" maxlength="1" class="otp-box text-success" />
-          </div>
-
-          <div class="text-center text-muted mb-2">
-            Code expires in <span id="timer">01:00</span>
-          </div>
-
-          <div class="text-center">
-            <button class="btn btn-link text-decoration-none p-0" id="resendBtn" disabled>Resend Code</button>
-          </div>
+          Your account has been successfully created. You can now log in to your account.
         </div>
-
         <div class="modal-footer">
-          <button type="button" class="btn btn-success" id="verify-btn">Verify</button>
-        </div>
-
-      </div>
-    </div>
-  </div>
-
-  <!-- Incorrect Code Modal (new) -->
-  <div class="modal fade" id="incorrectCodeModal" tabindex="-1">
-    <div class="modal-dialog">
-      <div class="modal-content text-center p-3">
-        <div class="modal-body">
-          <p class="text-danger fs-5 fw-semibold">Incorrect verification code. Please try again.</p>
+          <button type="button" class="btn btn-success" data-bs-dismiss="modal" id="goToLoginBtn">Continue to Login</button>
         </div>
       </div>
     </div>
   </div>
+
 
   <script src="js/address_Selection.js"></script>
   <script src="js/birthdate_Selection.js"></script>
   <script src="js/tooltip.js"></script><!-- ToolTip js -->
+
+  <script src="js_backend/sign_up.js"></script><!-- Email Verification js -->
 
 </body>
 </html>
