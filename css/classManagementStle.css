@@ -55,3 +55,8 @@ main{
   top: 45vh;
   left: 39.5%;
 }
+
+/*icon for editing the user details in settings*/
+#edit-user-details-icon{
+  margin:0 0 20vh 40%;
+}
