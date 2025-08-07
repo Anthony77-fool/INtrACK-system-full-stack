@@ -22,7 +22,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // If hashed (recommended), use password_verify()
         if (password_verify($password, $hashedPassword)) {
             $_SESSION['user_id'] = $user_id;
-
+            // Set other session variables as needed
             echo json_encode([
                 'status' => 'success',
                 'message' => 'Login successful',
@@ -35,6 +35,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             ]);
         }
     } else {
+        // If no account found with the provided email
         echo json_encode([
             'status' => 'error',
             'message' => 'Account not found.'
