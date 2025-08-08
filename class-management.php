@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>Settings</title>
+  <title>Class Management</title>
 
   <!-- FAVICON -->
   <link rel="icon" type="image/png" href="images/inac-logo.png">
@@ -63,44 +63,91 @@
   ?>
 
   <!-- this is main -->
-  <main class="d-flex flex-column gap-4 p-5 d-none d-lg-block">
-    <!-- Main content JS Generated -->
+  <main class="d-flex flex-column  p-5 d-none d-lg-block">
+
+    <!-- Section for creating a class -->
+    <section class="custom-shadow py-4 px-3">
+      <h3 class="ms-2 custom-header-fs custom-color fw-semibold">Create Class</h3>
+
+      <!-- container for input fields -->
+      <div class="container">
+        <div class="row gy-2">
+
+          <div class="col-4"><!-- Section Input -->
+            <h4 class="custom-color fs-6">Section Name*</h4>
+            <input class="w-100 ps-2 form-control" type="text" id="section-name" placeholder="e.g. Descartes">
+          </div>
+
+          <div class="col-4">
+            <h4 class="custom-color fs-6">Grade Level*</h4><!-- Grade Level Input -->
+            <input class="w-100 ps-2 form-control" type="number" id="grade-level" placeholder="e.g. 11" min="7" max="12" onkeydown="return false;">
+          </div>
+
+          <div class="col-4"><!-- SY input -->
+            <h4 class="custom-color fs-6">School Year*</h4>
+            <!-- for the sy. dropdown option -->
+            <div>
+              <select id="schoolYearSelect" class="form-select cursor-pointer">
+                <option value="" selected disabled class="cursor-pointer">Select School Year</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="col-4"> <!-- Strand input -->
+            <h4 class="custom-color fs-6">Strand* (only if SHS)</h4>
+            <input class="w-100 ps-2 form-control" id="strand" type="text" placeholder="e.g. STEM" oninput="this.value = this.value.toUpperCase();">
+          </div>
+
+          <div class="btn-container col-4 d-flex-center">
+            <button class="btn btn-success h-75 w-100 mt-3 fs-5 cstm-lttr-spcng" id="create-class_BTN" title="Create a new Class">Create Class</button>
+          </div>
+
+        </div>
+      </div>
+
+    </section>
+
+    <!-- Created Class Sections -->
+    <section class=" container mt-4" id="createdClassSection">
+      
+    </section>
+
   </main>
 
   <?php
     require_once 'includes_php/Aside-Bar.php'; // Include the Aside Bar
   ?>
 
+  <!-- Modal for notice -->
+  <div class="modal fade" id="noticeModal" tabindex="-1" aria-labelledby="noticeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header bg-danger d-flex justify-content-between">
+          <h5 class="modal-title text-white cstm-lttr-spcng" id="noticeModalLabel">Incomplete Fields</h5>
+          <button type="button" class="bg-transparent exit-icon_BTN" data-bs-dismiss="modal" aria-label="Close">
+            <i class="fa-solid fa-circle-xmark fs-1 text-white"></i>
+          </button>
+        </div>
+        <div class="modal-body">
+          Please fill in all required fields before submitting.
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">OK</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- End Notice Modal -->
+
   <script src="js/sySelect.js"></script><!-- for the class management s.y. selection -->
   <script src="js/calendar.js"></script><!-- for the calendar "ASIDE" -->
   <script src="js/tooltip.js"></script>
+
   <!-- error page -->
   <script src="js/errorPage.js" type="module"></script>
 
-  <!-- for getting session id -->
-  <script src="js_backend/get-session.js"></script>
-  
-  <!-- for getting user info -->
-  <script src="js_loops_backend/settings.js"></script>
-
-  <!-- for logout -->
-  <script src="js_backend/log-out.js"></script>
-
-  <!-- for toggeling password -->
-  <script>
-    $(document).on('click', '#togglePassword', function () {
-      const passwordInput = $('#password');
-      const type = passwordInput.attr('type') === 'password' ? 'text' : 'password';
-      passwordInput.attr('type', type);
-
-      // Toggle icon
-      $(this).html(
-        type === 'password'
-          ? '<i class="fa-solid fa-eye"></i>'
-          : '<i class="fa-solid fa-eye-slash"></i>'
-      );
-    });
-  </script>
+  <!-- class management JS -->
+  <script src="js_loops_backend/class-management.js"></script>
 
 </body>
 </html>
