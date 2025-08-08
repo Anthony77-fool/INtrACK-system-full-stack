@@ -9,7 +9,7 @@
   }
 
   //anchor Links for the navigation bar
-  $classManagementLink = 'class-management.html';
+  $classManagementLink = 'class-management.php';
   $qrScannerManagementLink = 'qr-scanner-management.html';
   $reportsLink = 'reports.html';
 
