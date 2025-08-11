@@ -58,7 +58,7 @@
   </div>
   
   <?php
-    $pageTitle = 'Settings'; // Set the page title
+    $pageTitle = 'Class-Management'; // Set the page title
     require_once 'includes_php/Nav-Bar.php'; // Include the Navigation Bar
   ?>
 
@@ -107,7 +107,7 @@
 
     </section>
 
-    <!-- Created Class Sections -->
+    <!-- Created Class Sections JS Generated -->
     <section class=" container mt-4" id="createdClassSection">
       
     </section>
