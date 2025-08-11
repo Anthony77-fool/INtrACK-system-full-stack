@@ -19,6 +19,7 @@ $(document).ready(function() {
           let classHtml = '<div class="row gy-4">';
 
           classes.forEach(function(classObj) {
+            
             classHtml += `
               <article class="col-6 ps-0" data-class-id="${classObj.class_id}">
                 <div class="inner-container custom-shadow cstm-box-bg-clr p-4">
@@ -39,7 +40,7 @@ $(document).ready(function() {
                     </div>
                   </div>
                   <footer class="mt-3 d-flex flex-row">
-                    <a href="class-details.html" class="btn bg-white fs-5 d-flex justify-content-evenly text-success fw-bold cursor-pointer cstm-btn-w"
+                    <a href="class-details.php?class_id=${classObj.class_id}" class="btn bg-white fs-5 d-flex justify-content-evenly text-success fw-bold cursor-pointer cstm-btn-w"
                       title="View Class Details" data-class-id="${classObj.class_id}">
                       View <i class="bi bi-box-arrow-up-right"></i>
                     </a>
@@ -53,7 +54,7 @@ $(document).ready(function() {
           });
           classHtml += '</div>';
           $('#createdClassSection').html(classHtml);
-
+          
           // Clear the form fields
           $("#section-name").val('');
           $("#grade-level").val('');
