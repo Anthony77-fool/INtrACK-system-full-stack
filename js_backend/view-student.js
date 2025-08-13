@@ -1,3 +1,6 @@
+//this is for viewing students and editing/updating
+
+
 // Function to populate student form with data from the server
 // This function is used for both viewing and editing student details
 function populateStudentForm(studId, formId, isReadOnly = false) {
@@ -6,16 +9,18 @@ function populateStudentForm(studId, formId, isReadOnly = false) {
     'July', 'August', 'September', 'October', 'November', 'December'
   ];
 
+  // Get the value of "class_id" from the URL
+  const params_add = new URLSearchParams(window.location.search);
+  const classId_add = params_add.get("class_id");
+
   $.ajax({
     url: 'php/get-Students.php',
-    type: 'GET',
+    type: 'POST',
+    data: {class_id: classId_add},
     dataType: 'json',
     success: function (students) {
+      
       const student = students.find(s => s.student_id == studId);
-
-      // Log the student ID being searched and all IDs from the backend
-      console.log('Looking for student ID:', studId);
-      console.log('Student IDs from backend:', students.map(s => s.student_id));
 
       if (!student) {
         alert('Student not found');
@@ -41,8 +46,8 @@ function populateStudentForm(studId, formId, isReadOnly = false) {
         $form.find('input[name="gender"]').prop('disabled', true);
       }
 
-      //Image URL
-      $form.find('.photo-container img').attr('src', student.profile_img_src);
+      //Image URL, display Student IMG
+      $form.find('.student-image-container img').attr('src', student.image_url);
 
       // Address
       if (formId === 'editStudent_Form') {
@@ -69,6 +74,11 @@ function populateStudentForm(studId, formId, isReadOnly = false) {
       //set fields for the viewing parentFname and Parent Email
       setField('input[placeholder="Parent De Example"]', student.parentFName);
       setField('input[placeholder="example@gmail.com"]', student.parent_email);
+
+      //Image URL, display Student QR CODE
+      $form.find('.qr-code-container img').attr('src', student.qr_code_img_url);
+      // Save student name for download
+      $('#download_QR_Icon').data('filename', `${student.firstName}_${student.lastName}_QR.png`);
 
       // Show modal
       $form.modal('show');

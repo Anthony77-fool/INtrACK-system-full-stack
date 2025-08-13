@@ -22,7 +22,7 @@
 
                 <!-- Photo container (Left) -->
                 <div class="col-6">
-                  <div class="h-100 border rounded d-flex align-items-center justify-content-center photo-container">
+                  <div class="h-100 border rounded d-flex align-items-center justify-content-center photo-container student-image-container">
                     <!-- IMG DATA -->
                     <img src="'. $default_profile_img .'" alt="uploaded profile image" class="w-100 h-100 object-fit-contain rounded">
                   </div>
@@ -135,7 +135,7 @@
               <label class="form-label fw-semibold fs-6 custom-color">Generated QR*</label>
               
               <!-- Photo container (Left) -->
-              <div class=" border rounded d-flex align-items-center justify-content-center photo-container">
+              <div class=" border rounded d-flex align-items-center justify-content-center photo-container qr-code-container">
                 <!-- IMG DATA -->
                 <img src="images/qr-code-sample.png" alt="uploaded profile image" class="w-100 custom-h-qr object-fit-contain rounded">
                 <i class="bi bi-download fs-1" id="download_QR_Icon" title="Download QR Code"><!-- ICON for Downloading QR --></i>

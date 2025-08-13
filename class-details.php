@@ -199,5 +199,7 @@
   <script src="js_backend/add-student.js"></script><!-- JS for Add Students -->
   <script src="js_backend/view-student.js"></script><!-- For Viewing Students -->
 
+  <script src="js/download-qr.js"></script><!-- Last One for the download of QR Code -->
+
 </body>
 </html>

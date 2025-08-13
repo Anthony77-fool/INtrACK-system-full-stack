@@ -20,15 +20,18 @@
     $user_id = $_SESSION['user_id'];
 
     // Handle file upload
-    $uploadDir = '../images/profileImg/';
+$uploadDir = '../images/profileImg/';
+$profileImagePath = 'images/profileImg/default-profile-pic.png'; // default image if no upload
+
+if (isset($_FILES['profile_image']) && $_FILES['profile_image']['error'] === UPLOAD_ERR_OK) {
     $fileName = basename($_FILES['profile_image']['name']);
     $targetPath = $uploadDir . $fileName;
 
     if (move_uploaded_file($_FILES['profile_image']['tmp_name'], $targetPath)) {
         $profileImagePath = 'images/profileImg/' . $fileName; // Store relative path in DB
-    } else {
-        $profileImagePath = 'images/profileImg/default-profile-pic.png'; // Fallback or handle error
     }
+}
+
 
     // Sanitize and collect POST data
     $firstName     = $_POST['first_name'] ?? '';
@@ -74,12 +77,6 @@
         
     $stmt = $conn->prepare($insertStudentSql);
     $stmt->bind_param("sssssssssssis", $user_id, $firstName, $middleName, $lastName, $lrn, $gender, $address_id, $birth_date_id, $parent_FName, $parent_email, $profileImagePath, $class_id, $qr_code_img_url);
-
-    if ($stmt->execute()) {
-        echo "Student added successfully.";
-    } else {
-        echo "Error: " . $stmt->error;
-    }
 
     if ($stmt->execute()) {
     // Get the new student's auto-increment ID

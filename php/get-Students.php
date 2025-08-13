@@ -16,8 +16,19 @@
   //get user_id
   $user_id = $_SESSION['user_id'];
 
+  // Get class_id from POST (or GET if needed)
+  $class_id = $_POST['class_id'] ?? '';
+
+  if (empty($class_id)) {
+      echo json_encode([
+          'status' => 'error',
+          'message' => 'Class ID is required.'
+      ]);
+      exit;
+  }
+
   // Prepare and execute the query
-  $sql = "SELECT * FROM students";
+  $sql = "SELECT * FROM students WHERE teacher_id = ? AND class_id = ?";
   $stmt = mysqli_prepare($conn, $sql);
 
   if (!$stmt) {
@@ -26,6 +37,7 @@
       exit;
   }
 
+  mysqli_stmt_bind_param($stmt, "ii", $user_id, $class_id);
   mysqli_stmt_execute($stmt);
   $result = mysqli_stmt_get_result($stmt);
 

@@ -2,12 +2,18 @@ $(document).ready(function(){
 
   //function for fetching students in studentlist
   function fetchStudents() {
+    
+    // Get the value of "class_id" from the URL
+    const params_add = new URLSearchParams(window.location.search);
+    const classId_add = params_add.get("class_id");
+
     const $tbody = $("table tbody");
     $tbody.empty(); // Clear existing rows
 
     $.ajax({
       url: 'php/get-Students.php',
       method: 'POST',
+      data: {class_id: classId_add},
       dataType: 'json',
       success: function (students) {
         console.log("Fetched students:", students);
