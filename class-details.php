@@ -200,6 +200,7 @@
   <script src="js_backend/view-student.js"></script><!-- For Viewing Students -->
 
   <script src="js/download-qr.js"></script><!-- Last One for the download of QR Code -->
+  <script src="js_backend/delete-student.js"></script>
 
 </body>
 </html>

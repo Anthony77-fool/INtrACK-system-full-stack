@@ -31,7 +31,7 @@ $(document).ready(function(){
               <td class="d-flex flex-row align-items-center justify-content-evenly">
                 <i class="fa-solid fa-eye cstm-view-icon cursor-pointer btn-view-student" data-bs-toggle="modal" data-bs-target="#viewStudent_Form" title="View Student" data-student-id="${student.student_id}"></i>
                 <i class="bi bi-box-arrow-up-right text-success cursor-pointer btn-edit-student" data-bs-toggle="modal" data-bs-target="#editStudent_Form" title="Edit Student" data-student-id="${student.student_id}"></i>
-                <i class="bi bi-trash-fill text-danger cursor-pointer delete-student" title="Delete Student" data-student-id="${student.stud_id}"></i>
+                <i class="bi bi-trash-fill text-danger cursor-pointer delete-student" title="Delete Student" data-student-id="${student.student_id}"></i>
               </td>
             </tr>
           `);
@@ -56,10 +56,9 @@ $(document).ready(function(){
 
       students.forEach((student, index) => {
         const isEven = index % 2 === 1;
-        const rowClass = isEven ? 'table-secondary' : '';
-
+        
         const $row = $(`
-          <tr class="inner-shadow ${rowClass}" data-student-id="${student.stud_id}">
+          <tr class="inner-shadow ${rowClass}" data-student-id="${student.student_id}">
             <td class="text-muted">${index + 1}</td>
             <td>${student.lastName}</td>
             <td>${student.firstName}</td>
@@ -67,7 +66,7 @@ $(document).ready(function(){
             <td class="d-flex flex-row align-items-center justify-content-evenly">
               <i class="fa-solid fa-eye cstm-view-icon cursor-pointer" data-bs-toggle="modal" data-bs-target="#viewStudent_Form" title="View Student"></i>
               <i class="bi bi-box-arrow-up-right text-success cursor-pointer" data-bs-toggle="modal" data-bs-target="#editStudent_Form" title="Edit Student"></i>
-              <i class="bi bi-trash-fill text-danger cursor-pointer" title="Delete Student"></i>
+              <i class="bi bi-trash-fill text-danger cursor-pointer delete-student" data-student-id="${student.student_id}" title="Delete Student"></i>
             </td>
           </tr>
         `);
