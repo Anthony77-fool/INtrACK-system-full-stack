@@ -36,7 +36,7 @@
           <i class="bi bi-journal-bookmark fs-1 custom-color"></i>
         </div>
         <div class="">
-          <h3 class="fw-bolder m-0 custom-color">40</h3>
+          <h3 class="fw-bolder m-0 custom-color total-classes">0</h3>
           <h3 class="fs-6 text-muted">Total Class</h3>
         </div>
       </article>
@@ -48,12 +48,16 @@
           <i class="fa-solid fa-user-graduate students-sec-fs custom-color" ></i>
         </div>
         <div class="">
-          <h3 class="fw-bolder m-0 custom-color">140</h3>
+          <h3 class="fw-bolder m-0 custom-color latest_students_total">0</h3>
           <h3 class="fs-6 text-muted">Latest Students Total</h3>
         </div>
       </article>
 
     </aside>
   ';
+
+  echo '
+  <!-- for countings aside bar -->
+  <script src="js_backend/aside-bar.js"></script> ';
 
 ?>
