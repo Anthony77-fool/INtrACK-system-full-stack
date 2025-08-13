@@ -21,6 +21,7 @@ $(document).ready(function(){
   const params_add = new URLSearchParams(window.location.search);
   const classId_add = params_add.get("class_id");
 
+  //when the add student btn is click
   $('#addStudent').on('click', function(e){
     e.preventDefault(); // stop the form from submitting
 
@@ -31,9 +32,9 @@ $(document).ready(function(){
       last_name: $('#add_lastName').val(),
       lrn: $('#add_lrn').val(),
       gender: $('input[name="gender"]:checked').val(),
-      province: $('#province').val(),
-      municipality: $('#municipality').val(),
-      barangay: $('#barangay').val(),
+      province_code: $('#province').val(),
+      municipality_code: $('#municipality').val(),
+      barangay_code: $('#barangay').val(),
       birth_month: $('#birthMonth').val(),
       birth_day: $('#birthDay').val(),
       birth_year: $('#birthYear').val(),
@@ -54,11 +55,7 @@ $(document).ready(function(){
       formData.append('profile_image', file);
     }
 
-    for (let [key, value] of formData.entries()) {
-      console.log(key, value);
-    }
-
-     //4. Send via AJAX
+    //4. Send via AJAX
     $.ajax({
       type: 'POST',
       url: 'php/add-students.php',
@@ -74,11 +71,13 @@ $(document).ready(function(){
         //$('#studentProfileImg').attr('src', 'images/profileImg/default-profile-pic.png'); // Reset preview if needed
       },
       error: function(xhr, status, error) {
+            
         console.error('Upload error:', status, error);
       }
     });
     
-    
   });
-    
+  
+  
+  
 });

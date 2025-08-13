@@ -66,10 +66,37 @@
       <header class="d-flex justify-content-between">
 
         <h3 class="fs-4 custom-color fw-semibold">Student List</h3>
-        <button class="btn btn-success rounded-pill px-3 py-2" data-bs-toggle="modal" data-bs-target="#addStudent_Form" title="Add a New Student"><!-- BTN to ADD STudents -->
-          <i class="fa-solid fa-plus bg-white rounded-circle text-success p-1" id="addStudent_Button"></i>
-          Add Student
-        </button>
+
+        <div class="d-flex flex-row align-items-center gap-3">
+
+          <!-- Search Bar -->
+          <form class="d-flex position-relative" role="search" id="search_Form">
+            <input type="search" id="searchInput-students" name="search" class="form-control rounded-pill ps-5 pe-5" placeholder="Search" aria-label="Search">
+
+            <!-- Search Icon (left inside input) -->
+            <span class="position-absolute top-50 start-0 translate-middle-y ps-3 text-muted">
+              <i class="fa-solid fa-magnifying-glass"></i>
+            </span>
+
+            <!-- Sort Icon (right inside input) -->
+            <span class="position-absolute top-50 end-0 translate-middle-y pe-3 text-muted" style="cursor: pointer;" data-bs-toggle="dropdown">
+              <i class="bi bi-funnel"></i>
+            </span>
+
+            <!-- Dropdown menu for sorting -->
+            <ul class="dropdown-menu dropdown-menu-end mt-2">
+              <li><a class="dropdown-item sort-option" data-sort="az" href="#">Sort A-Z</a></li>
+              <li><a class="dropdown-item sort-option" data-sort="date" href="#">Sort by Date</a></li>
+              <li><a class="dropdown-item sort-option" data-sort="default" href="#">Default</a></li>
+            </ul>
+          </form>
+
+          <button class="btn btn-success rounded-pill px-3 py-2" data-bs-toggle="modal" data-bs-target="#addStudent_Form" title="Add a New Student"><!-- BTN to ADD STudents -->
+            <i class="fa-solid fa-plus bg-white rounded-circle text-success p-1" id="addStudent_Button"></i>
+            Add Student
+          </button>
+
+        </div>
 
       </header>
 
@@ -167,8 +194,10 @@
   <script src="js/birthdate_Selection.js"></script>
   <script src="js/tooltip.js"></script><!-- ToolTip js -->
 
+  <script src="js_loops_backend/display-students.js"></script><!-- Must be the first script in backend -->
   <script src="js_loops_backend/class-details.js"></script><!-- JS for Class Details Page -->
   <script src="js_backend/add-student.js"></script><!-- JS for Add Students -->
+  <script src="js_backend/view-student.js"></script><!-- For Viewing Students -->
 
 </body>
 </html>

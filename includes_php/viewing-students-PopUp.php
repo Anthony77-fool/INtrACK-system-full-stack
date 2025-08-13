@@ -1,5 +1,7 @@
 <?php
 
+  $default_profile_img = 'images/profileImg/default-profile-pic.png'; // Default profile image path
+
   echo '
     <!-- POP UP for Viewing Student -->
     <!-- Modal -->
@@ -22,7 +24,7 @@
                 <div class="col-6">
                   <div class="h-100 border rounded d-flex align-items-center justify-content-center photo-container">
                     <!-- IMG DATA -->
-                    <img src="images/profileImg/Sabado-Marck-Anthony.png" alt="uploaded profile image" class="w-100 h-100 object-fit-contain rounded">
+                    <img src="'. $default_profile_img .'" alt="uploaded profile image" class="w-100 h-100 object-fit-contain rounded">
                   </div>
                 </div>
 
