@@ -72,5 +72,9 @@
 
     </nav>
   ';
+  
+  echo '
+  <!-- for logout -->
+  <script src="js_backend/log-out.js"></script> ';
 
 ?>

@@ -1,9 +1,11 @@
 <?php
 
+  $default_profile_img = 'images/profileImg/default-profile-pic.png'; // Default profile image path
+
   echo '
     <!-- POP UP for Adding Student -->
     <!-- Modal -->
-    <div class="modal fade" id="addStudent_Form" tabindex="-1" aria-labelledby="formTitle_Add" aria-hidden="true">
+    <div class="modal fade" id="addStudent_Form" tabindex="-1" aria-labelledby="formTitle_Add" aria-hidden="true" enctype="multipart/form-data">
       <div class="modal-dialog modal-lg">
         <div class="modal-content">
 
@@ -21,7 +23,7 @@
                 <div class="col-6">
                   <div class="border rounded d-flex align-items-center justify-content-center photo-container" style="height: 415px;">
                     <!-- IMG DATA -->
-                    <img src="images/profileImg/Sabado-Marck-Anthony.png" alt="uploaded profile image" class="h-100 object-fit-contain rounded" id="studentProfileImg-addStudent">
+                    <img src="'. $default_profile_img .'" alt="uploaded profile image" class="h-100 object-fit-contain rounded" id="studentProfileImg-addStudent">
 
                     <!-- Hidden file input -->
                     <input type="file" id="profileImageInput-addStudent" name="profile_image" accept="image/*" hidden>

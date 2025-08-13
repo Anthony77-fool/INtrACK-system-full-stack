@@ -1,16 +1,35 @@
 <?php
+    session_start();
     // Connect to database
     require_once '../conn/db_conn.php';
+    require_once '../libs/phpqrcode/qrlib.php'; // adjust path if needed
+
+    // Prepare empty qr_code_img_url for initial insert
+    $qr_code_img_url = '';
+
+    // Check if user is logged in
+    if (!isset($_SESSION['user_id'])) {
+        echo json_encode([
+            'status' => 'error',
+            'message' => 'Not logged in.'
+        ]);
+        exit;
+    }
+
+    //this is teachers id
+    $user_id = $_SESSION['user_id'];
 
     // Handle file upload
     $uploadDir = '../images/profileImg/';
-    $fileName = basename($_FILES['profile_image']['name']);
-    $targetPath = $uploadDir . $fileName;
+    $profileImagePath = 'images/profileImg/default-profile-pic.png'; // default image if no upload
 
-    if (move_uploaded_file($_FILES['profile_image']['tmp_name'], $targetPath)) {
-        $profileImagePath = 'images/profileImg/' . $fileName; // Store relative path in DB
-    } else {
-        $profileImagePath = 'images/profileImg/default-profile-pic.png'; // Fallback or handle error
+    if (isset($_FILES['profile_image']) && $_FILES['profile_image']['error'] === UPLOAD_ERR_OK) {
+        $fileName = basename($_FILES['profile_image']['name']);
+        $targetPath = $uploadDir . $fileName;
+
+        if (move_uploaded_file($_FILES['profile_image']['tmp_name'], $targetPath)) {
+            $profileImagePath = 'images/profileImg/' . $fileName; // Store relative path in DB
+        }
     }
 
     // Sanitize and collect POST data
@@ -24,16 +43,13 @@
     $municipality  = $_POST['municipality_code'] ?? '';
     $barangay      = $_POST['barangay_code'] ?? '';
 
-    $birthMonth    = $_POST['birthMonth'] ?? '';
-    $birthDay      = $_POST['birthDay'] ?? '';
-    $birthYear     = $_POST['birthYear'] ?? '';
+    $birthMonth    = $_POST['birth_month'] ?? '';
+    $birthDay      = $_POST['birth_day'] ?? '';
+    $birthYear     = $_POST['birth_year'] ?? '';
 
     $parent_FName  = $_POST['parent_name'];
     $parent_email  = $_POST['parent_email'];
     $class_id  = $_POST['classId_add'];
-
-    // Combine birthdate into one string
-    $birthDate = "$birthYear-$birthMonth-$birthDay";
 
     // Insert into address table (optional if normalized)
     $insertAddressSql = "INSERT INTO address (province_code, municipality_code, barangay_code)
@@ -55,17 +71,52 @@
 
     // Insert into students table
     $insertStudentSql = "INSERT INTO students 
-        (firstName, middleName, lastName, lrn, gender, address_id, birth_date_id, parentFName, parent_email, image_url, class_id)
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        ( teacher_id, firstName, middleName, lastName, lrn, gender, address_id, birth_date_id, parentFName, parent_email, image_url, class_id, qr_code_img_url)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         
     $stmt = $conn->prepare($insertStudentSql);
-    $stmt->bind_param("ssssssssssi", $firstName, $middleName, $lastName, $lrn, $gender, $address_id, $birth_date_id, $parent_FName, $parent_email, $profileImagePath, $class_id);
+    $stmt->bind_param("sssssssssssis", $user_id, $firstName, $middleName, $lastName, $lrn, $gender, $address_id, $birth_date_id, $parent_FName, $parent_email, $profileImagePath, $class_id, $qr_code_img_url);
 
     if ($stmt->execute()) {
-        echo "Student added successfully.";
-    } else {
-        echo "Error: " . $stmt->error;
+    // Get the new student's auto-increment ID
+    $student_id = $stmt->insert_id;
+
+    // === Generate QR code image using student_id ===
+    $qrDir = '../images/qr_codes/';
+    if (!is_dir($qrDir)) {
+        mkdir($qrDir, 0775, true);
     }
+
+    // File name and full path
+    $qrFileName = 'qr_' . $student_id . '.png';
+    $qrFilePath = $qrDir . $qrFileName;
+
+    // Generate QR code (student_id as content)
+    QRcode::png((string)$student_id, $qrFilePath, QR_ECLEVEL_L, 4, 2);
+
+    // Save relative path to DB
+    $qr_code_img_url = 'images/qr_codes/' . $qrFileName;
+
+    // Update student record with QR code path
+    $updateSql = "UPDATE students SET qr_code_img_url = ? WHERE student_id = ?";
+    $updateStmt = $conn->prepare($updateSql);
+    $updateStmt->bind_param("si", $qr_code_img_url, $student_id);
+    $updateStmt->execute();
+    $updateStmt->close();
+
+    echo json_encode([
+        'status' => 'success',
+        'message' => 'Student added successfully.',
+        'qr_url'  => $qr_code_img_url,
+        'student_id' => $student_id
+    ]);
+} else {
+    echo json_encode([
+        'status' => 'error',
+        'message' => $stmt->error
+    ]);
+}
+
 
     $stmt->close();
     $conn->close();

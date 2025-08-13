@@ -1,3 +1,49 @@
+//function for fetching students in studentlist
+function fetchStudents() {
+  
+  // Get the value of "class_id" from the URL
+  const params_add = new URLSearchParams(window.location.search);
+  const classId_add = params_add.get("class_id");
+
+  const $tbody = $("table tbody");
+  $tbody.empty(); // Clear existing rows
+
+  $.ajax({
+    url: 'php/get-Students.php',
+    method: 'POST',
+    data: {class_id: classId_add},
+    dataType: 'json',
+    success: function (students) {
+      console.log("Fetched students:", students);
+
+      students.forEach((student, index) => {
+        const isEven = index % 2 === 1;
+        const rowClass = isEven ? 'table-secondary' : '';
+
+        const $row = $(`
+          <tr class="inner-shadow ${rowClass}" data-student-id="${student.student_id}">
+            <td class="text-muted">${index + 1}</td>
+            <td>${student.lastName}</td>
+            <td>${student.firstName}</td>
+            <td>${student.middleName}</td>
+            <td class="d-flex flex-row align-items-center justify-content-evenly">
+              <i class="fa-solid fa-eye cstm-view-icon cursor-pointer btn-view-student" data-bs-toggle="modal" data-bs-target="#viewStudent_Form" title="View Student" data-student-id="${student.student_id}"></i>
+              <i class="bi bi-box-arrow-up-right text-success cursor-pointer btn-edit-student" data-bs-toggle="modal" data-bs-target="#editStudent_Form" title="Edit Student" data-student-id="${student.student_id}"></i>
+              <i class="bi bi-trash-fill text-danger cursor-pointer delete-student" title="Delete Student" data-student-id="${student.stud_id}"></i>
+            </td>
+          </tr>
+        `);
+
+        $tbody.append($row);
+      });
+    },
+    error: function (xhr, status, error) {
+      console.error("AJAX Error:", status, error);
+    }
+  });
+
+}
+
 $(document).ready(function(){
 
   // Trigger file input when camera icon is clicked
@@ -21,6 +67,7 @@ $(document).ready(function(){
   const params_add = new URLSearchParams(window.location.search);
   const classId_add = params_add.get("class_id");
 
+  //when the add student btn is click
   $('#addStudent').on('click', function(e){
     e.preventDefault(); // stop the form from submitting
 
@@ -31,9 +78,9 @@ $(document).ready(function(){
       last_name: $('#add_lastName').val(),
       lrn: $('#add_lrn').val(),
       gender: $('input[name="gender"]:checked').val(),
-      province: $('#province').val(),
-      municipality: $('#municipality').val(),
-      barangay: $('#barangay').val(),
+      province_code: $('#province').val(),
+      municipality_code: $('#municipality').val(),
+      barangay_code: $('#barangay').val(),
       birth_month: $('#birthMonth').val(),
       birth_day: $('#birthDay').val(),
       birth_year: $('#birthYear').val(),
@@ -54,11 +101,7 @@ $(document).ready(function(){
       formData.append('profile_image', file);
     }
 
-    for (let [key, value] of formData.entries()) {
-      console.log(key, value);
-    }
-
-     //4. Send via AJAX
+    //4. Send via AJAX
     $.ajax({
       type: 'POST',
       url: 'php/add-students.php',
@@ -68,17 +111,17 @@ $(document).ready(function(){
       success: function(response) {
         console.log('Server response:', response);
         $('#addStudent_Form').modal('hide');
-        //fetchStudents(); // Refresh student table
+        fetchStudents(); // Refresh student table
 
-        //$('#studentForm')[0].reset();
-        //$('#studentProfileImg').attr('src', 'images/profileImg/default-profile-pic.png'); // Reset preview if needed
+        $('#studentForm')[0].reset();
+        $('#studentProfileImg').attr('src', 'images/profileImg/default-profile-pic.png'); // Reset preview if needed
       },
       error: function(xhr, status, error) {
+            
         console.error('Upload error:', status, error);
       }
     });
     
-    
   });
-    
+  
 });
