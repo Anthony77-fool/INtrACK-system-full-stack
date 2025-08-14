@@ -64,7 +64,8 @@ main{
 /*margin for photo camera for the modals*/
 
 #photo_cameraUpload-student,
-#photo_cameraEdit-student
+#photo_cameraEdit-student,
+#update_Editing-Photo
 {
   position: absolute;
   margin: 365px 0 0px 317px;

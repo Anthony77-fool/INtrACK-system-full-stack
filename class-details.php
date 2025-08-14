@@ -198,6 +198,7 @@
   <script src="js_loops_backend/class-details.js"></script><!-- JS for Class Details Page -->
   <script src="js_backend/add-student.js"></script><!-- JS for Add Students -->
   <script src="js_backend/view-student.js"></script><!-- For Viewing Students -->
+  <script src="js_backend/update-student.js"></script><!-- For Updating Students -->
 
   <script src="js/download-qr.js"></script><!-- Last One for the download of QR Code -->
   <script src="js_backend/delete-student.js"></script>
