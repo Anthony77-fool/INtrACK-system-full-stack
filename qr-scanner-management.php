@@ -105,6 +105,28 @@
     require_once 'includes_php/Aside-Bar.php'; // Include the Aside Bar
   ?>
 
+  <!-- Modal: Session Created Successfully -->
+  <div class="modal fade" id="sessionSuccessModal" tabindex="-1" aria-labelledby="sessionSuccessModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+
+        <div class="modal-header d-flex justify-content-between">
+          <h5 class="modal-title text-success" id="sessionSuccessModalLabel">Success</h5>
+          <i class="fa-solid fa-circle-xmark fs-2 cursor-pointer text-success" data-bs-dismiss="modal" aria-label="Close" role="button" title="Close Modal"></i>
+        </div>
+
+        <div class="modal-body">
+          Session created successfully!
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-success" data-bs-dismiss="modal">OK</button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
   <script src="js/sySelect.js"></script><!-- for the class management s.y. selection -->
   <script src="js/calendar.js"></script><!-- for the calendar "ASIDE" -->
   <script src="js/tooltip.js"></script>

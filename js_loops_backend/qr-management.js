@@ -42,28 +42,35 @@ $(document).ready(function() {
 			const time_created = now.toTimeString().split(" ")[0]; // HH:MM:SS
 
 			$.ajax({
-				url: "php/create-session.php",
-				type: "POST",
-				dataType: "json",
-				data: {
-						class_id: class_id,
-						attendance_type: attendance_type,
-						date_created: date_created,
-						time_created: time_created
-				},
-				success: function(response) {
-						if (response.status === "success") {
-								alert("Session created successfully!");
-								window.location.href = "qrCodeScanner.html";
-						} else {
-								alert("Error: " + response.message);
-						}
-				},
-				error: function(xhr, status, error) {
-						console.error("AJAX Error:", status, error);
-						alert("An unexpected error occurred. Please try again.");
-				}
-		});
+					url: "php/create-session.php",
+					type: "POST",
+					dataType: "json",
+					data: {
+							class_id: class_id,
+							attendance_type: attendance_type,
+							date_created: date_created,
+							time_created: time_created
+					},
+					success: function(response) {
+							if (response.status === "success") {
+									let sessionId = response.session_id; // Now you have the ID
+
+									let modal = new bootstrap.Modal(document.getElementById("sessionSuccessModal"));
+									modal.show();
+
+									// Redirect after modal is closed, passed also session id
+									document.getElementById("sessionSuccessModal").addEventListener("hidden.bs.modal", function () {
+											window.location.href = "qrCodeScanner.php?session_id=" + sessionId;
+									});
+							} else {
+									alert("Error: " + response.message);
+							}
+					},
+					error: function(xhr, status, error) {
+							console.error("AJAX Error:", status, error);
+							alert("An unexpected error occurred. Please try again.");
+					}
+			});
 
 	});
 

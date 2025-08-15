@@ -155,7 +155,7 @@
 
         <div class="modal-footer">
           <!-- btn anchor to exit the session -->
-          <a href="qr-scanner-management.html" class="btn btn-danger">Yes, Exit</a>
+          <a href="qr-scanner-management.php" class="btn btn-danger">Yes, Exit</a>
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
         </div>
 
@@ -164,7 +164,9 @@
   </div>
 
   <script src="js/tooltip.js"></script><!-- ToolTip js -->
-  <script src="js/qrCode-scanner.js"></script>
+
+  <!-- For backend -->
+  <script src="js_backend/qrCode-scanner.js"></script>
 
 </body>
 </html>
