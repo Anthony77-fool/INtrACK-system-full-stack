@@ -41,7 +41,9 @@ function populateStudentForm(studId, formId, isReadOnly = false) {
       setField('input[placeholder="127283642"]', student.lrn);
 
       // Gender
+      //edit mode
       $form.find(`input[name="edit_Gender"][value="${student.gender}"]`).prop('checked', true);
+      //view mode
       if (isReadOnly) {
         $form.find('input[name="gender"]').prop('disabled', true);
       }

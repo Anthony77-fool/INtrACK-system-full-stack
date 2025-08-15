@@ -189,6 +189,29 @@
     </div>
   </div>
 
+  <!-- Toast container: fixed at the top center of the screen -->
+  <div class="toast-container position-fixed top-0 start-50 translate-middle-x p-3">
+      
+      <!-- Toast element: Success notification -->
+      <!-- 'text-bg-success' = green background for success -->
+      <!-- 'border-0' = removes border -->
+      <div id="notification_Toast" 
+          class="toast align-items-center text-bg-success border-0" 
+          role="alert" 
+          aria-live="assertive" 
+          aria-atomic="true">
+          
+        <div class="d-flex-center fs-5 p-2">
+            
+          <!-- Toast message body -->
+          <div class="toast-body">
+            Dynamic Message here
+          </div>
+          
+        </div>
+      </div>
+  </div>
+
   <script src="js/calendar.js"></script><!-- for the calendar "ASIDE" -->
   <script src="js/address_Selection.js"></script>
   <script src="js/birthdate_Selection.js"></script>

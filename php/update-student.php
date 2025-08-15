@@ -30,8 +30,9 @@
     $birth_month = $_POST['birth_month'];
     $birth_day = $_POST['birth_day'];
     $birth_year = $_POST['birth_year'];
-    $province = $_POST['province_code'];
-    $municipality = $_POST['municipality_code'];
+    $province_code = $_POST['province_code'];
+    $municipality_code = $_POST['municipality_code'];
+    $barangay_code = $_POST['barangay_code'];
     $parent_FName = $_POST['parent_FName'];
     $parent_email = $_POST['parent_email'];
 
@@ -66,7 +67,7 @@
 
     // Update address
     $stmt = $conn->prepare("UPDATE address SET province_code=?, municipality_code=?, barangay_code=? WHERE address_id=?");
-    $stmt->bind_param("ssss", $province, $municipality, $barangay, $address_id);
+    $stmt->bind_param("ssss", $province_code, $municipality_code, $barangay_code, $address_id);
     $stmt->execute();
     $stmt->close();
 

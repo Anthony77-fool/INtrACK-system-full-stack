@@ -1,5 +1,18 @@
 $(document).ready(function () {
 
+  // Works for all your radio-label pairs with this structure:
+  // <input type="radio"> <label class="form-check-label">Text</label>
+  $(document).on('click', 'label.form-check-label', function (e) {
+    e.preventDefault();             // avoid any default scroll/focus quirks
+    e.stopPropagation();            // avoid parent handlers undoing it
+    const $radio = $(this).siblings('input[type="radio"]').first();
+    if ($radio.length && !$radio.prop('disabled')) {
+      // Use the native .click() to mimic a real user click
+      $radio[0].click();
+      $radio.trigger('change');     // if you have listeners
+    }
+  });
+
   // Trigger file input when camera icon is clicked
   $('#update_Editing-Photo').on('click', function () {
     $('#update_profileImageInput').click();
@@ -63,12 +76,28 @@ $(document).ready(function () {
       success: function (response) {
         console.log('Update response:', response);
         $('#editStudent_Form').modal('hide');
-        // location.reload(); // or fetch updated students
-          fetchStudents(); // Refresh student table
+        
+        fetchStudents(); // Refresh student table
+
+        //refresh and remove search input
+        $("#searchInput-students").val('');
+
+        // Set message
+        $('#notification_Toast .toast-body').text('Student updated successfully!');
+        
+        // Change color to green
+        $('#notification_Toast')
+            .removeClass('text-bg-danger text-bg-warning text-bg-info')
+            .addClass('text-bg-success');
+        
+        // Show toast
+        new bootstrap.Toast(document.getElementById('notification_Toast'), { delay: 2000 }).show();
+        
       },
       error: function () {
         alert('Update failed!');
       }
+
     });
     
   });
