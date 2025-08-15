@@ -21,19 +21,38 @@
   }
 
   // Optional: Prevent duplicate scans for same student in same session
-  $checkSql = "SELECT report_id FROM reports WHERE session_id = ? AND student_id = ?";
-  $checkStmt = $conn->prepare($checkSql);
-  $checkStmt->bind_param("ii", $session_id, $student_id);
-  $checkStmt->execute();
-  $checkStmt->store_result();
+    $checkSql = "SELECT report_id FROM reports WHERE session_id = ? AND student_id = ?";
+    $checkStmt = $conn->prepare($checkSql);
+    $checkStmt->bind_param("ii", $session_id, $student_id);
+    $checkStmt->execute();
+    $checkStmt->store_result();
 
-  if ($checkStmt->num_rows > 0) {
-      echo json_encode(['status' => 'error', 'message' => 'This student is already scanned for this session.']);
-      $checkStmt->close();
-      $conn->close();
-      exit;
-  }
-  $checkStmt->close();
+    if ($checkStmt->num_rows > 0) {
+        // Fetch student name for better message
+        $studentSql = "SELECT firstName, middleName, lastName FROM students WHERE student_id = ?";
+        $studentStmt = $conn->prepare($studentSql);
+        $studentStmt->bind_param("i", $student_id);
+        $studentStmt->execute();
+        $studentResult = $studentStmt->get_result();
+
+        $fullname = 'Unknown Student';
+        if ($studentResult->num_rows > 0) {
+            $student = $studentResult->fetch_assoc();
+            $middleInitial = !empty($student['middleName']) ? strtoupper(substr($student['middleName'], 0, 1)) . '.' : '';
+            $fullname = trim($student['firstName'] . ' ' . $middleInitial . ' ' . $student['lastName']);
+        }
+        $studentStmt->close();
+
+        echo json_encode([
+            'status' => 'duplicate',
+            'message' => "This student ($fullname) is already recorded for this session.",
+            'fullname' => $fullname
+        ]);
+        $checkStmt->close();
+        $conn->close();
+        exit;
+    }
+
 
   // Fetch student details
   $studentSql = "SELECT firstName, middleName, lastName FROM students WHERE student_id = ?";

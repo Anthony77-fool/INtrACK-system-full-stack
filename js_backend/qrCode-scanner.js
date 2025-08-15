@@ -48,7 +48,14 @@ $(document).ready(function () {
                             `);
                             new bootstrap.Modal(document.getElementById('qrResultModal')).show();
 
-                        } else {
+                        } else if (response.status === "duplicate") {
+                            $('#qr-modal-content').html(`
+                                <p><strong>${response.fullname}</strong> is already recorded for this attendance.</p>
+                            `);
+                            new bootstrap.Modal(document.getElementById('qrResultModal')).show();
+
+                        }
+                        else {
                             console.error("Error:", response.message);
                         }
                     },
