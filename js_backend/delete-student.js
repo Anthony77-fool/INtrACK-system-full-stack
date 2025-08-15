@@ -67,6 +67,21 @@ $('#confirmDeleteBtn').on('click', function () {
         $('#confirmDeleteModal').modal('hide');
         // Optionally reload or update the UI
         fetchStudents();
+
+        //refresh and remove search input
+        $("#searchInput-students").val('');
+
+        // Set message
+        $('#notification_Toast .toast-body').text('Student removed successfully!');
+        
+        // Change color to green
+        $('#notification_Toast')
+            .removeClass('text-bg-danger text-bg-success text-bg-info')
+            .addClass('text-bg-warning');
+        
+        // Show toast
+        new bootstrap.Toast(document.getElementById('notification_Toast'), { delay: 2000 }).show();
+
       },
       error: function () {
         alert('Failed to delete student.');

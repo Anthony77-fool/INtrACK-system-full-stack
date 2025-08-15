@@ -34,14 +34,16 @@ function populateStudentForm(studId, formId, isReadOnly = false) {
         if (isReadOnly) $input.prop('disabled', true);
       };
 
-      //set fields for the viewing
+      //set fields for the viewing and editing
       setField('input[placeholder="Marck Anthony"]', student.firstName);
       setField('input[placeholder="Licuan"]', student.middleName);
       setField('input[placeholder="Sabado"]', student.lastName);
       setField('input[placeholder="127283642"]', student.lrn);
 
       // Gender
+      //edit mode
       $form.find(`input[name="edit_Gender"][value="${student.gender}"]`).prop('checked', true);
+      //view mode
       if (isReadOnly) {
         $form.find('input[name="gender"]').prop('disabled', true);
       }
@@ -64,12 +66,16 @@ function populateStudentForm(studId, formId, isReadOnly = false) {
       setField('input[placeholder="2005"]', student.birthYear || '');
 
       // Birthdate Edit Mode
-      $('#edit_BirthMonth').val(student.birthMonth).trigger('change');
-      $('#edit_BirthYear').val(student.birthYear).trigger('change');
-      // Then wait and trigger day once the days are populated
-      setTimeout(() => {
-        $('#edit_BirthDay').val(student.birthDay);
-      }, 100);
+      (async () => {
+        await populateMonths();
+        $('#edit_BirthMonth').val(student.birthMonth).trigger('change');
+
+        await populateYears();
+        $('#edit_BirthYear').val(student.birthYear).trigger('change');
+
+        await populateDays(student.birthMonth, student.birthYear);
+        $('#edit_BirthDay').val(student.birthDay).trigger('change');
+      })();
 
       //set fields for the viewing parentFname and Parent Email
       setField('input[placeholder="Parent De Example"]', student.parentFName);
@@ -89,40 +95,167 @@ function populateStudentForm(studId, formId, isReadOnly = false) {
   });
 }
 
-// Function to populate address fields in the edit form
+// Populate all address dropdowns in the edit form using student's saved codes
 async function populateAddressFields(form, student) {
-  const provinceCode = student.province_code;
-  const municipalityCode = student.municipality_code;
-  const barangayCode = student.barangay_code;
+  const provinceCode = student.province_code;      // Saved province code from DB
+  const municipalityCode = student.municipality_code; // Saved municipality code
+  const barangayCode = student.barangay_code;      // Saved barangay code
 
-  // 1. Set province
+  // --- Step 1: Load provinces into the dropdown ---
+  // Wait until provinces are fetched and appended before continuing
+  await fetchProvinces();
+  // Set the dropdown to student's saved province and trigger 'change' event
   form.find('#edit_province').val(provinceCode).trigger('change');
 
-  // 2. Wait for municipalities to be populated
+  // --- Step 2: Load municipalities for the selected province ---
   await fetchMunicipalities(provinceCode);
+  // Set the dropdown to student's saved municipality
   form.find('#edit_municipality').val(municipalityCode).trigger('change');
 
-  // 3. Wait for barangays to be populated
+  // --- Step 3: Load barangays for the selected municipality ---
   await fetchBarangays(municipalityCode);
+  // Set the dropdown to student's saved barangay
   form.find('#edit_barangay').val(barangayCode).trigger('change');
 }
 
-// Fetch municipalities and barangays based on selected province and municipality
+/**
+ * Fetch the list of provinces from PSGC API
+ * and populate the #edit_province dropdown.
+ */
+function fetchProvinces() {
+  return $.ajax({
+    url: 'https://psgc.gitlab.io/api/provinces.json', // Always request JSON
+    method: 'GET',
+    dataType: 'json'
+  }).then(response => {
+    // Validate: Ensure API returned an array
+    if (!Array.isArray(response)) {
+      console.error('Unexpected provinces API response:', response);
+      return [];
+    }
+
+    const $province = $('#edit_province');
+    // Clear existing options and add default placeholder
+    $province.empty().append('<option disabled>Select Province</option>');
+
+    // Append each province as an <option>
+    response.forEach(p => {
+      $province.append(`<option value="${p.code}">${p.name}</option>`);
+    });
+
+    return response; // Return array for further chaining if needed
+  });
+}
+
+/**
+ * Fetch the list of municipalities for a given province code
+ * and populate the #edit_municipality dropdown.
+ */
 function fetchMunicipalities(provinceCode) {
   return $.ajax({
-    url: `https://psgc.gitlab.io/api/provinces/${provinceCode}/municipalities`,
-    method: 'GET'
+    url: `https://psgc.gitlab.io/api/provinces/${provinceCode}/municipalities.json`,
+    method: 'GET',
+    dataType: 'json'
+  }).then(response => {
+    // Validate: Ensure API returned an array
+    if (!Array.isArray(response)) {
+      console.error('Unexpected municipalities API response:', response);
+      return [];
+    }
+
+    const $municipality = $('#edit_municipality');
+    // Clear existing options and add default placeholder
+    $municipality.empty().append('<option disabled>Select Municipality</option>');
+
+    // Append each municipality as an <option>
+    response.forEach(m => {
+      $municipality.append(`<option value="${m.code}">${m.name}</option>`);
+    });
+
+    return response;
   });
 }
 
-// Fetch barangays based on selected municipality
+/**
+ * Fetch the list of barangays for a given municipality code
+ * and populate the #edit_barangay dropdown.
+ */
 function fetchBarangays(municipalityCode) {
   return $.ajax({
-    url: `https://psgc.gitlab.io/api/municipalities/${municipalityCode}/barangays`,
-    method: 'GET'
+    url: `https://psgc.gitlab.io/api/municipalities/${municipalityCode}/barangays.json`,
+    method: 'GET',
+    dataType: 'json'
+  }).then(response => {
+    // Validate: Ensure API returned an array
+    if (!Array.isArray(response)) {
+      console.error('Unexpected barangays API response:', response);
+      return [];
+    }
+
+    const $barangay = $('#edit_barangay');
+    // Clear existing options and add default placeholder
+    $barangay.empty().append('<option disabled>Select Barangay</option>');
+
+    // Append each barangay as an <option>
+    response.forEach(b => {
+      $barangay.append(`<option value="${b.code}">${b.name}</option>`);
+    });
+
+    return response;
   });
 }
 
+// Populate months dropdown (1-12)
+function populateMonths() {
+  return new Promise(resolve => {
+    const $month = $('#edit_BirthMonth');
+    $month.empty().append('<option disabled>Select Month</option>');
+    
+    const monthNames = [
+      '', 'January', 'February', 'March', 'April', 'May', 'June',
+      'July', 'August', 'September', 'October', 'November', 'December'
+    ];
+    
+    for (let i = 1; i <= 12; i++) {
+      $month.append(`<option value="${i}">${monthNames[i]}</option>`);
+    }
+    resolve();
+  });
+}
+
+// Populate years dropdown (example: 1900–current year)
+function populateYears() {
+  return new Promise(resolve => {
+    const $year = $('#edit_BirthYear');
+    $year.empty().append('<option disabled>Select Year</option>');
+    
+    const currentYear = new Date().getFullYear();
+    for (let y = currentYear; y >= 1900; y--) {
+      $year.append(`<option value="${y}">${y}</option>`);
+    }
+    resolve();
+  });
+}
+
+// Populate days dropdown based on selected month/year
+function populateDays(month, year) {
+  return new Promise(resolve => {
+    const $day = $('#edit_BirthDay');
+    $day.empty().append('<option disabled>Select Day</option>');
+
+    if (!month || !year) {
+      resolve();
+      return;
+    }
+
+    // Get correct number of days in month/year
+    const daysInMonth = new Date(year, month, 0).getDate();
+    for (let d = 1; d <= daysInMonth; d++) {
+      $day.append(`<option value="${d}">${d}</option>`);
+    }
+    resolve();
+  });
+}
 
 // View Student
 $(document).on('click', '.btn-view-student', function () {
@@ -134,6 +267,7 @@ $(document).on('click', '.btn-view-student', function () {
 $(document).on('click', '.btn-edit-student', function () {
   console.log("Edit button clicked");
   const studId = $(this).data('student-id');
+  
   populateStudentForm(studId, 'editStudent_Form', false); // Editable
 
   // store in modal for later use

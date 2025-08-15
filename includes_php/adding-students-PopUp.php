@@ -21,9 +21,9 @@
 
                 <!-- Photo container (Left) -->
                 <div class="col-6">
-                  <div class="border rounded d-flex align-items-center justify-content-center photo-container" style="height: 415px;">
+                  <div class="border rounded d-flex align-items-center justify-content-center photo-container" style="height: 415px; width: 370px">
                     <!-- IMG DATA -->
-                    <img src="'. $default_profile_img .'" alt="uploaded profile image" class="h-100 object-fit-contain rounded" id="studentProfileImg-addStudent">
+                    <img src="'. $default_profile_img .'" alt="uploaded profile image" class="h-100 w-100 object-fit-contain rounded" id="studentProfileImg-addStudent">
 
                     <!-- Hidden file input -->
                     <input type="file" id="profileImageInput-addStudent" name="profile_image" accept="image/*" hidden>
@@ -131,7 +131,7 @@
                 <!-- Parent Credentials -->
                 <div class="mt-3">
                   <!-- Label -->
-                  <label class="form-label fw-semibold fs-6 custom-color">Birth Date*</label>
+                  <label class="form-label fw-semibold fs-6 custom-color">Parent Credentials*</label>
 
                   <div class="d-flex gap-3">
                     <input class="form-control" type="text" placeholder="Parent Full Name" id="add_parentsFName">
@@ -147,7 +147,7 @@
             <footer class="modal-footer d-flex-center py-4 d-flex gap-5">
               <!-- Both triggered by js(opened 2nd modals) -->
               <button class="btn btn-success w-25 py-2 cstm-lttr-spcng fs-5" title="Add Student" id="addStudent">Add Student</button>
-              <button type="button" class="btn btn-danger w-25 py-2 cstm-lttr-spcng fs-5" title="Cancel Form" data-bs-modal="dismiss">Cancel</button>
+              <button type="button" class="btn btn-danger w-25 py-2 cstm-lttr-spcng fs-5" title="Cancel Form" data-bs-dismiss="modal">Cancel</button>
             </footer>
           </form>
 

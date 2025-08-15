@@ -113,8 +113,23 @@ $(document).ready(function(){
         $('#addStudent_Form').modal('hide');
         fetchStudents(); // Refresh student table
 
-        $('#studentForm')[0].reset();
+        //refresh and remove search input
+        $("#searchInput-students").val('');
+
+        $('#addStudent_Form form')[0].reset();
         $('#studentProfileImg').attr('src', 'images/profileImg/default-profile-pic.png'); // Reset preview if needed
+
+        // Set message
+        $('#notification_Toast .toast-body').text('Student added successfully!');
+        
+        // Change color to green
+        $('#notification_Toast')
+            .removeClass('text-bg-danger text-bg-warning text-bg-info')
+            .addClass('text-bg-success');
+        
+        // Show toast
+        new bootstrap.Toast(document.getElementById('notification_Toast'), { delay: 2000 }).show();
+
       },
       error: function(xhr, status, error) {
             

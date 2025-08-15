@@ -48,33 +48,49 @@ $(document).ready(function(){
 
   // Function to trigger search and update the table
   function triggerSearch(sortBy = '') {
-    const query = $("#searchInput-students").val();
-    
-    $.post("includes_php/search-Students.php", { search: query, sort: sortBy }, function (students) {
-      const $tbody = $("table tbody");
-      $tbody.empty();
+      const query = $("#searchInput-students").val();
 
-      students.forEach((student, index) => {
-        const isEven = index % 2 === 1;
-        
-        const $row = $(`
-          <tr class="inner-shadow ${rowClass}" data-student-id="${student.student_id}">
-            <td class="text-muted">${index + 1}</td>
-            <td>${student.lastName}</td>
-            <td>${student.firstName}</td>
-            <td>${student.middleName}</td>
-            <td class="d-flex flex-row align-items-center justify-content-evenly">
-              <i class="fa-solid fa-eye cstm-view-icon cursor-pointer" data-bs-toggle="modal" data-bs-target="#viewStudent_Form" title="View Student"></i>
-              <i class="bi bi-box-arrow-up-right text-success cursor-pointer" data-bs-toggle="modal" data-bs-target="#editStudent_Form" title="Edit Student"></i>
-              <i class="bi bi-trash-fill text-danger cursor-pointer delete-student" data-student-id="${student.student_id}" title="Delete Student"></i>
-            </td>
-          </tr>
-        `);
+      // Get the value of "class_id" from the URL
+      const params_add = new URLSearchParams(window.location.search);
+      const classId_add = params_add.get("class_id");
 
-        $tbody.append($row);
-      });
-    }, 'json');
+      // Send search + sort + class_id to PHP
+      $.post("includes_php/search-Students.php", {
+          search: query,
+          sort: sortBy,
+          class_id: classId_add
+      }, function (students) {
+          const $tbody = $("table tbody");
+          $tbody.empty();
+
+          students.forEach((student, index) => {
+              const isEven = index % 2 === 0;
+              const rowClass = isEven ? '' : 'table-secondary';
+
+              const $row = $(`
+                  <tr class="inner-shadow ${rowClass}" data-student-id="${student.student_id}">
+                      <td class="text-muted">${index + 1}</td>
+                      <td>${student.lastName}</td>
+                      <td>${student.firstName}</td>
+                      <td>${student.middleName}</td>
+                      <td class="d-flex flex-row align-items-center justify-content-evenly">
+                          <i class="fa-solid fa-eye cstm-view-icon cursor-pointer btn-view-student"
+                            data-bs-toggle="modal" data-bs-target="#viewStudent_Form"
+                            title="View Student" data-student-id="${student.student_id}"></i>
+                          <i class="bi bi-box-arrow-up-right text-success cursor-pointer btn-edit-student"
+                            data-bs-toggle="modal" data-bs-target="#editStudent_Form"
+                            title="Edit Student" data-student-id="${student.student_id}"></i>
+                          <i class="bi bi-trash-fill text-danger cursor-pointer delete-student"
+                            data-student-id="${student.student_id}" title="Delete Student"></i>
+                      </td>
+                  </tr>
+              `);
+
+              $tbody.append($row);
+          });
+      }, 'json');
   }
+
 
   // Call fetch on load
   fetchStudents();

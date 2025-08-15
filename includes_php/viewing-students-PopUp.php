@@ -22,7 +22,7 @@
 
                 <!-- Photo container (Left) -->
                 <div class="col-6">
-                  <div class="h-100 border rounded d-flex align-items-center justify-content-center photo-container student-image-container">
+                  <div class="border rounded d-flex align-items-center justify-content-center photo-container student-image-container" style="height: 415px; width: 370px">
                     <!-- IMG DATA -->
                     <img src="'. $default_profile_img .'" alt="uploaded profile image" class="w-100 h-100 object-fit-contain rounded">
                   </div>

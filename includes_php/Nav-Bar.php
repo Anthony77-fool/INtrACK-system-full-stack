@@ -4,6 +4,8 @@
   $drodownStyleText = 'custom-color';
   $box_style = '';
   $text_white = '';
+  $box_styleQR = '';
+  $text_whiteQR = '';
 
   // Check if the current page is 'Settings' to change the style
   if($pageTitle == 'Settings') {
@@ -13,10 +15,14 @@
     $box_style = 'cstm-box-bg-clr';
     $text_white = 'text-white';
   }
+  elseif($pageTitle == 'QR-Scanner-Management') {
+    $box_styleQR = 'cstm-box-bg-clr';
+    $text_whiteQR = 'text-white';
+  }
 
   //anchor Links for the navigation bar
   $classManagementLink = 'class-management.php';
-  $qrScannerManagementLink = 'qr-scanner-management.html';
+  $qrScannerManagementLink = 'qr-scanner-management.php';
   $reportsLink = 'reports.html';
 
   echo '
@@ -38,10 +44,10 @@
           </li>
 
           <!-- QR Scanner Management -->
-          <li class="custom-shadow aside-bar-h d-flex align-items-center cursor-pointer"
+          <li class="custom-shadow aside-bar-h d-flex align-items-center cursor-pointer ' . $box_styleQR . '"
               onclick="window.location.href=\'' . $qrScannerManagementLink . '\'">
-            <i class="fa-solid fa-camera fs-3 ms-5 me-4 cstm-icon-clr"></i>
-            <span class="text-decoration-none fs-5 custom-color fw-bold cstm-lttr-spcng">QR Scanner Management</span>
+            <i class="fa-solid fa-camera fs-3 ms-5 me-4 cstm-icon-clr ' . $text_whiteQR . '"></i>
+            <span class="text-decoration-none fs-5 custom-color fw-bold cstm-lttr-spcng ' . $text_whiteQR . '">QR Scanner Management</span>
           </li>
 
           <!-- Reports -->
@@ -56,7 +62,7 @@
 
       <!-- Aside Bar Footer -->
       <footer class="custom-shadow aside-bar-h d-flex-center justify-content-evenly flex-row">
-        <img class="rounded-circle border border-success-subtle border-2 custom-hm-img" id="user-hm-img" src="images/profileImg/Sabado-Marck-Anthony.png" alt="This is profile image">
+        <img class="rounded-circle border border-success-subtle border-2 custom-hm-img" id="user-hm-img" src="images/profileImg/default-profile-pic.png" alt="This is profile image">
         <div class="usrnme-footer-container d-flex-center">
           <h3 class="fs-5">Marck Anthony Sabado</h3>
         </div>
