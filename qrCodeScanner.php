@@ -63,7 +63,7 @@
     <img src="images/inTrack-logo.jpg" class="img-logo-size" alt="">
   </section>
 
-  <!-- Trigger button to start scanning -->
+  <!-- Trigger button to start scanning: Backend Generated -->
   <section class="container custom-shadow text-center mt-5 p-4">
 
     <!-- Class Header -->
