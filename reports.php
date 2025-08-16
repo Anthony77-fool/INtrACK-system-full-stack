@@ -47,59 +47,11 @@
 
 </head>
 <body>
-  
-  <!-- This block only appears on small screens -->
-  <div class="d-flex justify-content-center align-items-center flex-column d-block d-lg-none warning-container">
-    <!-- Lottie animation -->
-    <canvas id="canvas" class="lottie-overlay"></canvas>
 
-    <!-- Message -->
-    <h5>Sorry! This site works best on laptop and desktop devices</h5>
-  </div>
-
-  <!-- Navigation: Hamburger Menu -->
-  <nav class="position-fixed h-100 w-25 d-none d-lg-block">
-
-    <!-- Aside Bar Header -->
-    <header class="custom-shadow">
-      <img class="img-logo-size" src="images/inTrack-logo.jpg" alt="This is inTrack-logo">
-    </header>
-
-    <!-- Aside Bar Body -->
-    <div class="body mt-4">
-      <ul class="list-unstyled d-flex flex-column gap-4"><!-- Current Focus -->
-        <li class="custom-shadow aside-bar-h d-flex align-items-center cursor-pointer">
-          <i class="fa-solid fa-school fs-3 ms-5 me-4 cstm-icon-clr"></i>
-          <a class="text-decoration-none fs-5 custom-color fw-bold cstm-lttr-spcng" href="class-management.html">Class Management</a>
-        </li>
-        <li class="custom-shadow aside-bar-h d-flex align-items-center cursor-pointer">
-          <i class="fa-solid fa-camera fs-3 ms-5 me-4 cstm-icon-clr"></i>
-          <a class="text-decoration-none fs-5 custom-color fw-bold cstm-lttr-spcng" href="qr-scanner-management.html">QR Scanner Management</a>
-        </li>
-        <li class="custom-shadow aside-bar-h d-flex align-items-center cursor-pointer cstm-box-bg-clr">
-          <i class="fa-solid fa-chart-column fs-3 ms-5 me-4 text-white"></i>
-          <a class="text-decoration-none fs-4 text-white fw-bold cstm-lttr-spcng" href="reports.html">Reports</a>
-        </li>
-      </ul>
-    </div>
-
-    <!-- Aside Bar Footer -->
-    <footer class="custom-shadow aside-bar-h d-flex-center justify-content-evenly flex-row">
-      <img class="rounded-circle border border-success-subtle border-2 custom-hm-img" id="user-hm-img" src="images/profileImg/Sabado-Marck-Anthony.png" alt="This is profile image">
-      <div class="usrnme-footer-container d-flex-center">
-        <h3 class="fs-5">Marck Anthony Sabado</h3>
-      </div>
-      <div class="dropup-center">
-        <!-- ICON for logout and settings -->
-        <i class="fa-solid fa-angle-up fs-2 cursor-pointer" type="button" data-bs-toggle="dropdown"></i>
-        <ul class="dropdown-menu rounded-0 custom-shadow border-0 m-0 p-0">
-          <li><a class="dropdown-item cstm-lttr-spcng fs-5 custom-color p-2 text-center fw-bold" href="settings.html">Settings</a></li>
-          <li><a class="dropdown-item cstm-lttr-spcng fs-5 custom-color p-2 text-center fw-bold" href="#">Logout</a></li>
-        </ul>
-      </div>
-    </footer>
-
-  </nav>
+  <?php
+    $pageTitle = 'Reports'; // Set the page title
+    require_once 'includes_php/Nav-Bar.php'; // Include the Navigation Bar
+  ?>
 
   <!-- this is main -->
   <main class="d-flex flex-column gap-4  p-5 d-none d-lg-block">
@@ -219,59 +171,9 @@
 
   </main>
 
-  <!-- ASide Bar -->
-  <aside class="position-fixed h-100 d-flex flex-column gap-4 d-none d-lg-block" id="mini-sidebar">
-    
-    <!-- CALENDAR -->
-    <article>
-      <div class="wrapper custom-shadow">
-        <header class="ps-4 pt-3 pb-0 pe-3">
-          <p class="current-date fs-3 fw-semibold"></p>
-          <div class="icons mb-3">
-            <span id="prev" class="material-symbols-rounded cursor-pointer text-center rounded-circle">chevron_left</span>
-            <span id="next" class="material-symbols-rounded cursor-pointer text-center rounded-circle">chevron_right</span>
-          </div>
-        </header>
-        <div class="calendar">
-          <ul class="weeks">
-            <li>Sun</li>
-            <li>Mon</li>
-            <li>Tue</li>
-            <li>Wed</li>
-            <li>Thu</li>
-            <li>Fri</li>
-            <li>Sat</li>
-          </ul>
-          <ul class="days"></ul>
-        </div>
-      </div>
-    </article>
-
-    <!-- TOTAL Sections -->
-    <article class="custom-shadow d-flex flex-row align-items-center class-bg-color p-3">
-      <!-- <i class="bi bi-diagram-3"></i> -->
-      <div class="bg-white py-1 px-3 rounded-3 me-3">
-        <i class="bi bi-journal-bookmark fs-1 custom-color"></i>
-      </div>
-      <div class="">
-        <h3 class="fw-bolder m-0 custom-color">40</h3>
-        <h3 class="fs-6 text-muted">Total Class</h3>
-      </div>
-    </article>
-
-    <!-- Latest STudents Section -->
-    <article class="custom-shadow d-flex flex-row align-items-center students-sec-bg-color p-3">
-      <!-- <i class="bi bi-diagram-3"></i> -->
-      <div class="bg-white py-2 px-3 rounded-3 me-3">
-        <i class="fa-solid fa-user-graduate students-sec-fs custom-color" ></i>
-      </div>
-      <div class="">
-        <h3 class="fw-bolder m-0 custom-color">140</h3>
-        <h3 class="fs-6 text-muted">Latest Students Total</h3>
-      </div>
-    </article>
-
-  </aside>
+  <?php
+    require_once 'includes_php/Aside-Bar.php'; // Include the Aside Bar
+  ?>
 
   <script src="js/sySelect.js"></script><!-- for the class management s.y. selection -->
   <script src="js/calendar.js"></script><!-- for the calendar "ASIDE" -->
