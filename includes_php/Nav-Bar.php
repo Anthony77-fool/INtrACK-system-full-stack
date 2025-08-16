@@ -6,6 +6,8 @@
   $text_white = '';
   $box_styleQR = '';
   $text_whiteQR = '';
+  $box_styleR = '';
+  $text_whiteR = '';
 
   // Check if the current page is 'Settings' to change the style
   if($pageTitle == 'Settings') {
@@ -19,11 +21,15 @@
     $box_styleQR = 'cstm-box-bg-clr';
     $text_whiteQR = 'text-white';
   }
+  elseif($pageTitle == 'Reports') {
+    $box_styleR = 'cstm-box-bg-clr';
+    $text_whiteR = 'text-white';
+  }
 
   //anchor Links for the navigation bar
   $classManagementLink = 'class-management.php';
   $qrScannerManagementLink = 'qr-scanner-management.php';
-  $reportsLink = 'reports.html';
+  $reportsLink = 'reports.php';
 
   echo '
     <!-- Navigation: Hamburger Menu -->
@@ -51,10 +57,10 @@
           </li>
 
           <!-- Reports -->
-          <li class="custom-shadow aside-bar-h d-flex align-items-center cursor-pointer"
+          <li class="custom-shadow aside-bar-h d-flex align-items-center cursor-pointer ' . $box_styleR . '"
               onclick="window.location.href=\'' . $reportsLink . '\'">
-            <i class="fa-solid fa-chart-column fs-3 ms-5 me-4 cstm-icon-clr"></i>
-            <span class="text-decoration-none fs-4 custom-color fw-bold cstm-lttr-spcng">Reports</span>
+            <i class="fa-solid fa-chart-column fs-3 ms-5 me-4 cstm-icon-clr ' . $text_whiteR . '"></i>
+            <span class="text-decoration-none fs-4 custom-color fw-bold cstm-lttr-spcng ' . $text_whiteR . '">Reports</span>
           </li>
         </ul>
       </div>
@@ -64,7 +70,7 @@
       <footer class="custom-shadow aside-bar-h d-flex-center justify-content-evenly flex-row">
         <img class="rounded-circle border border-success-subtle border-2 custom-hm-img" id="user-hm-img" src="images/profileImg/default-profile-pic.png" alt="This is profile image">
         <div class="usrnme-footer-container d-flex-center">
-          <h3 class="fs-5">Marck Anthony Sabado</h3>
+          <h3 class="fs-5">Name de Sample</h3>
         </div>
         <div class="dropup-center">
           <!-- ICON for logout and settings -->
@@ -81,6 +87,8 @@
   
   echo '
   <!-- for logout -->
-  <script src="js_backend/log-out.js"></script> ';
+  <script src="js_backend/log-out.js"></script> 
+  <script src="js_backend/get-navBar-details.js"></script>
+  ';
 
 ?>

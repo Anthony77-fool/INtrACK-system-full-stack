@@ -165,6 +165,12 @@
 
   <script src="js/tooltip.js"></script><!-- ToolTip js -->
 
+  <!-- EMAIL JS For sending email verification otps -->
+  <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
+  <script>
+    emailjs.init("EPCzRFGsgPKXdnpei"); // Replace with your actual public key from EmailJS
+  </script>
+
   <!-- For backend -->
   <script src="js_backend/qrCode-scanner.js"></script>
 
