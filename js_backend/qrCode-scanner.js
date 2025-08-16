@@ -17,56 +17,62 @@ $(document).ready(function () {
         { facingMode: "environment" }, // Use rear camera
         { fps: 10, qrbox: 250 },
         function (decodedText, decodedResult) {
-            // Only handle new scans
-            if (decodedText !== lastResult) {
-                lastResult = decodedText;
-                scanCount++;
+					// Only handle new scans
+					if (decodedText !== lastResult) {
+							lastResult = decodedText;
 
-                // ✅ Update scan count
-                $('#scan-count').text(`${scanCount}`);
+							// ✅ Send scan to backend, also get student name & parent email
+							$.ajax({
+									url: "php/insert-qr-reports.php",
+									type: "POST",
+									dataType: "json",
+									data: {
+											session_id: sessionId,
+											student_id: decodedText, // QR code contains student_id
+											date_created: new Date().toISOString().slice(0, 19).replace('T', ' ') // Format: YYYY-MM-DD HH:MM:SS
+									},
+									success: function (response) {
+											//this is also where the email gonna be sent to the parent email
+											console.log("response: ", response);
 
-                // ✅ Send scan to backend
-                $.ajax({
-                    url: "php/insert-qr-reports.php",
-                    type: "POST",
-                    dataType: "json",
-                    data: {
-                        session_id: sessionId,
-                        student_id: decodedText, // QR code contains student_id
-                        date_created: new Date().toISOString().slice(0, 19).replace('T', ' ') // Format: YYYY-MM-DD HH:MM:SS
-                    },
-                    success: function (response) {
-                        //this is also where the email gonna be sent to the parent email
-                        console.log("response: ", response);
+											if (response.status === "success") {
+													console.log("Scan saved successfully.");
+													console.log("Student parent email: ", response.parent_email);
 
-                        if (response.status === "success") {
-                            console.log("Scan saved successfully.");
+													//increment scan Count
+													scanCount++;
 
-                            // ✅ Show student's name
-                            $('#qr-modal-content').html(`
-                                <p>Successfully recorded attendance for <strong>${response.fullname}</strong></p>
-                            `);
-                            new bootstrap.Modal(document.getElementById('qrResultModal')).show();
+													// ✅ Update scan count
+													$('#scan-count').text(`${scanCount}`);
 
-                        } else if (response.status === "duplicate") {
-                            $('#qr-modal-content').html(`
-                                <p><strong>${response.fullname}</strong> is already recorded for this attendance.</p>
-                            `);
-                            new bootstrap.Modal(document.getElementById('qrResultModal')).show();
+													// ✅ Show student's name
+													$('#qr-modal-content').html(`
+															<p>Successfully recorded attendance for <strong>${response.fullname}</strong></p>
+													`);
+													new bootstrap.Modal(document.getElementById('qrResultModal')).show();
 
-                        }
-                        else {
-                            console.error("Error:", response.message);
-                        }
-                    },
-                    error: function (xhr, status, error) {
-                        console.error("AJAX Error:", status, error);
-                        console.log(xhr.responseText); // Logs full HTML/PHP error message
-                    }
+													// ✅ Call email function
+													sendAttendanceEmail(response.fullname, response.parent_email, response.attendance_type); // or "OUT" depending on your logic
 
-                });
+											} else if (response.status === "duplicate") {
+													$('#qr-modal-content').html(`
+															<p><strong>${response.fullname}</strong> is already recorded for this attendance.</p>
+													`);
+													new bootstrap.Modal(document.getElementById('qrResultModal')).show();
 
-            }
+											}
+											else {
+													console.error("Error:", response.message);
+											}
+									},
+									error: function (xhr, status, error) {
+											console.error("AJAX Error:", status, error);
+											console.log(xhr.responseText); // Logs full HTML/PHP error message
+									}
+
+							});
+
+					}
         },
         function (errorMessage) {
             // Optional: Handle camera scan errors
@@ -76,6 +82,36 @@ $(document).ready(function () {
         new bootstrap.Modal(document.getElementById('permissionModal')).show();
     });
   }
+
+	// function to send attendance email to parent
+	function sendAttendanceEmail(studentName, parentEmail, inOutStatus) {
+		const currentDate = new Date();
+		const date = currentDate.toLocaleDateString();
+		const time = currentDate.toLocaleTimeString();
+
+		// ✅ Log dynamic values before sending
+		console.log("📌 Sending Attendance Email with values:");
+		console.log("Student Fullname:", studentName);
+		console.log("Parent Email:", parentEmail);
+		console.log("Current Date:", date);
+		console.log("Current Time:", time);
+		console.log("IN/OUT Status:", inOutStatus);
+		
+		emailjs.send("service_xs6nj8f", "template_utmfizu", {
+			student_fullname: studentName,
+			parent_email: parentEmail,
+			current_date: date,
+			current_time: time,
+			in_out: inOutStatus
+		})
+		.then((response) => {
+				console.log("✅ Attendance email sent!", response.status, response.text);
+		})
+		.catch((error) => {
+				console.error("❌ Failed to send email:", error);
+		});
+		
+	}
 
   // Stop the QR scanner
   function stopScanner() {
