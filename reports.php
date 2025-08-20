@@ -68,7 +68,7 @@
             <h4 class="custom-color fs-6">Class*</h4>
             <!-- for the class dropdown option -->
             <div>
-              <select id="schoolYearSelect" class="form-select cursor-pointer">
+              <select id="classSelect" class="form-select cursor-pointer">
                 <option selected disabled class="cursor-pointer">Select Class</option>
               </select>
             </div>
@@ -76,19 +76,19 @@
 
           <div class="col-4"><!-- In or Out -->
             <h4 class="custom-color fs-6">Attendance Type*</h4>
-            <!-- for the sy. dropdown option -->
+            <!-- for In and out -->
             <div>
-              <select id="schoolYearSelect" class="form-select cursor-pointer">
+              <select id="attendanceTypeSelect" class="form-select cursor-pointer">
                 <option selected disabled class="cursor-pointer">Log as In or Out</option>
-                <option value="">In</option>
-                <option value="">Out</option>
+                <option value="IN">In</option>
+                <option value="OUT">Out</option>
               </select>
             </div>
           </div>
 
           <div class="btn-container col-4 d-flex-center">
-            <!-- Redirected to qr scanner page -->
-            <button class="btn btn-success h-75 w-100 mt-3 fs-5 cstm-lttr-spcng" title="Generate a New Session">Generate Report</button>
+            <!-- Generate reports btn -->
+            <button class="btn btn-success h-75 w-100 mt-3 fs-5 cstm-lttr-spcng" title="Generate a Report" id="generateReport-btn">Generate Report</button>
           </div>
 
           <!-- Date -->
@@ -98,26 +98,20 @@
             <div class="d-flex justify-content-between">
 
               <div class="custom-select-w"><!-- Month -->
-                <select id="schoolYearSelect" class="form-select cursor-pointer">
+                <select id="monthSelect" class="form-select cursor-pointer">
                   <option selected disabled class="cursor-pointer">Select Month</option>
-                  <option value="">In</option>
-                  <option value="">Out</option>
                 </select>
               </div>
 
             <div class="custom-select-w"><!-- day -->
-              <select id="schoolYearSelect" class="form-select cursor-pointer">
+              <select id="daySelect" class="form-select cursor-pointer">
                 <option selected disabled class="cursor-pointer">Select Day</option>
-                <option value="">In</option>
-                <option value="">Out</option>
               </select>
             </div>
 
             <div class="custom-select-w"><!-- Year -->
-              <select id="schoolYearSelect" class="form-select cursor-pointer">
+              <select id="yearSelect" class="form-select cursor-pointer">
                 <option selected disabled class="cursor-pointer">Select Year</option>
-                <option value="">In</option>
-                <option value="">Out</option>
               </select>
             </div>
 
@@ -130,43 +124,8 @@
     </section>
 
     <!-- for the generated attendance -->
-    <section class="custom-shadow py-4 px-3 mt-4">
-      <!-- Table -->
-      <table class="table table-borderless">
-        <thead><!-- Head -->
-          <th class="text-muted fs-5 text-center">#</th>
-          <th class="text-muted fs-5 text-center">Name</th>
-          <th class="text-muted fs-5 text-center">Present</th>
-          <th class="text-muted fs-5 text-center">Absent</th>
-          <th class="text-muted fs-5 text-center">Note</th>
-        </thead>
-
-        <!-- BODY -->
-        <tbody>
-          <tr>
-            <td class="text-black-50 fw-bolder fs-6 text-center">1</td><!-- Number -->
-            <td class="text-black-50 fw-bolder fs-6 text-center">Klein Moretti</td><!-- Full Name -->
-            <td class="text-center"><i class="fa-solid fa-circle text-success border border-2 p-1 rounded-circle fs-5 cursor-pointer"></i></td><!-- Present -->
-            <td class="text-center"><i class="fa-solid fa-circle custom-color border border-2 p-1 rounded-circle fs-5 cursor-pointer"></i></td><!-- Absent -->
-            <td class="text-center"><i class="fa-solid fa-comments cstm-view-icon fs-4 cursor-pointer"></i></td><!-- Note -->
-          </tr>
-          <tr>
-            <td class="text-black-50 fw-bolder fs-6 text-center">2</td><!-- Number -->
-            <td class="text-black-50 fw-bolder fs-6 text-center">Fitz Chivalry</td><!-- Full Name -->
-            <td class="text-center"><i class="fa-solid fa-circle custom-color border border-2 p-1 rounded-circle fs-5 cursor-pointer"></i></td><!-- Present -->
-            <td class="text-center"><i class="fa-solid fa-circle text-success border border-2 p-1 rounded-circle fs-5 cursor-pointer"></i></td><!-- Absent -->
-            <td class="text-center"><i class="fa-solid fa-comments cstm-view-icon fs-4 cursor-pointer"></i></td><!-- Note -->
-          </tr>
-          <tr>
-            <td class="text-black-50 fw-bolder fs-6 text-center">3</td><!-- Number -->
-            <td class="text-black-50 fw-bolder fs-6 text-center">Fitz Chivalry</td><!-- Full Name -->
-            <td class="text-center"><i class="fa-solid fa-circle custom-color border border-2 p-1 rounded-circle fs-5 cursor-pointer"></i></td><!-- Present -->
-            <td class="text-center"><i class="fa-solid fa-circle custom-color border border-2 p-1 rounded-circle fs-5 cursor-pointer"></i></td><!-- Absent -->
-            <td class="text-center"><i class="fa-solid fa-comments custom-color fs-4 cursor-pointer"></i></td><!-- Note -->
-          </tr>
-        </tbody>
-
-      </table>
+    <section id="attendanceSection" class="custom-shadow py-4 px-3 mt-4">
+      <!-- JS will inject default notice OR table -->
     </section>
 
   </main>
@@ -175,12 +134,11 @@
     require_once 'includes_php/Aside-Bar.php'; // Include the Aside Bar
   ?>
 
-  <script src="js/sySelect.js"></script><!-- for the class management s.y. selection -->
   <script src="js/calendar.js"></script><!-- for the calendar "ASIDE" -->
   <script src="js/tooltip.js"></script>
+  <script src="js_loops_backend/reports.js"></script>
 
   <!-- error page -->
-  <script src="js/errorPage.js" type="module"></script>
 
 </body>
 </html>
