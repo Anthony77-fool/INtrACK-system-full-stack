@@ -68,12 +68,14 @@ $(document).ready(function(){
 
   // Render default notice (when no class is chosen yet)
   function renderDefaultNotice() {
-    $("#attendanceSection").html(`
-      <div class="text-center text-muted py-5">
-        <i class="fa-solid fa-circle-exclamation fs-1 mb-3"></i>
-        <p class="fs-5 fw-bold">Please generate a report first</p>
-      </div>
-    `);
+    $("#attendanceSection")
+      .html(`
+        <div class="text-center text-muted py-5">
+          <i class="fa-solid fa-circle-exclamation fs-1 mb-3"></i>
+          <p class="fs-5 fw-bold">Please generate a report first</p>
+        </div>
+      `)
+      .addClass("custom-shadow"); // ✅ add class here
   }
 
   // Render attendance table
@@ -96,35 +98,47 @@ $(document).ready(function(){
       </table>
     `;
 
-    // Inject the table into the section
-    $("#attendanceSection").html(tableHtml);
+    // Inject the table into the section + add shadow
+    $("#attendanceSection")
+      .html(tableHtml)
+      .addClass("custom-shadow"); // ✅ add class here
 
-    // Populate tbody
+    // Populate tbody with students
     let $tableBody = $("#attendanceTableBody");
     data.forEach((student, index) => {
-      // Check note_status
+      // ✅ Decide the comment icon color
       let commentClass = (student.note_status === "ACTIVE") 
           ? "cstm-view-icon"   // Active → styled class
           : "custom-color";    // Inactive → fallback color
 
+      // ✅ Decide which circle is highlighted based on student.status
+      let presentIconClass = (student.status === "Present") 
+          ? "text-success"     // Present → green
+          : "custom-color";    // Not present → gray
+
+      let absentIconClass = (student.status === "ABSENT") 
+          ? "text-success"     // Absent → green
+          : "custom-color";    // Not absent → gray
+
+      // ✅ Build row
       $tableBody.append(`
         <tr>
           <td class="text-black-50 fw-bolder fs-6 text-center">${index + 1}</td>
           <td class="text-black-50 fw-bolder fs-6 text-center">${student.firstName} ${student.lastName}</td>
           <td class="text-center">
-            <i class="fa-solid fa-circle text-success border border-2 p-1 rounded-circle fs-5 cursor-pointer"></i>
+            <i class="fa-solid fa-circle ${presentIconClass} border border-2 p-1 rounded-circle fs-5 cursor-pointer"></i>
           </td>
           <td class="text-center">
-            <i class="fa-solid fa-circle custom-color border border-2 p-1 rounded-circle fs-5 cursor-pointer"></i>
+            <i class="fa-solid fa-circle ${absentIconClass} border border-2 p-1 rounded-circle fs-5 cursor-pointer"></i>
           </td>
           <td class="text-center">
-            <i class="fa-solid fa-comments ${commentClass} fs-4 cursor-pointer"></i>
+            <i class="fa-solid fa-comments ${commentClass} fs-4 cursor-pointer" data-student-id="${student.student_id}"></i>
           </td>
         </tr>
       `);
     });
-
   }
+
 
 
   // When "Generate Report" button is clicked

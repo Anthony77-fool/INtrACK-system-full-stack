@@ -34,26 +34,19 @@ $stmt->execute();
 $result = $stmt->get_result();
 $session = $result->fetch_assoc();
 
-if (!$session) {
-    echo json_encode([
-        'status' => 'error',
-        'message' => $date_created
-    ]);
-    exit;
-}
-
+//set the get session_id
 $session_id = $session['session_id'];
 
 // --- STEP 2: Get all student_ids + notes from reports table ---
 $sql = "SELECT student_id, note FROM reports WHERE session_id = ?";
 $stmt = $conn->prepare($sql);
-$stmt->bind_param("i", $session_id);
+$stmt->bind_param("i", $session_id); // use "i" not "s"
 $stmt->execute();
 $result = $stmt->get_result();
 
-$report_data = []; // Map student_id → [present, note_status]
+$report_data = [];
 while ($row = $result->fetch_assoc()) {
-    $note_status = (!empty($row['note'])) ? 'Active' : 'Inactive';
+    $note_status = (!empty($row['note'])) ? 'ACTIVE' : 'INACTIVE';
     $report_data[$row['student_id']] = [
         'present' => true,
         'note_status' => $note_status
@@ -85,6 +78,7 @@ while ($row = $result->fetch_assoc()) {
 
     $students[] = [
         'student_id'     => $student_id,
+        'session_id'    => $session_id,
         'firstName'   => $row['firstName'],
         'lastName'    => $row['lastName'],
         'status'      => $status,

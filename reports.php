@@ -124,7 +124,7 @@
     </section>
 
     <!-- for the generated attendance -->
-    <section id="attendanceSection" class="custom-shadow py-4 px-3 mt-4">
+    <section id="attendanceSection" class="py-4 px-3 mt-4">
       <!-- JS will inject default notice OR table -->
     </section>
 
@@ -134,11 +134,43 @@
     require_once 'includes_php/Aside-Bar.php'; // Include the Aside Bar
   ?>
 
+  <!-- Comment/Remark Modal -->
+  <div class="modal fade" id="commentModal" tabindex="-1" aria-labelledby="commentModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content shadow-lg rounded-4">
+        <div class="modal-header bg-light">
+          <h5 class="modal-title fw-bold" id="commentModalLabel">Add Remark</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+
+        <div class="modal-body">
+          <form id="commentForm">
+            <div class="mb-3">
+              <label for="commentUser" class="form-label fw-semibold">Student</label>
+              <input type="text" class="form-control" id="commentUser" readonly>
+            </div>
+            <div class="mb-3">
+              <label for="commentText" class="form-label fw-semibold">Your Remark</label>
+              <textarea class="form-control" id="commentText" rows="4" placeholder="Write your comment here..." required></textarea>
+            </div>
+          </form>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary rounded-pill" data-bs-dismiss="modal">Cancel</button>
+          <button type="submit" form="commentForm" class="btn btn-success rounded-pill">Save</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <script src="js/calendar.js"></script><!-- for the calendar "ASIDE" -->
   <script src="js/tooltip.js"></script>
   <script src="js_loops_backend/reports.js"></script>
 
-  <!-- error page -->
+  <!-- Add comment for student reports must be below report.js -->
+  <script src="js_backend/add-comment-reports.js"></script>
+
 
 </body>
 </html>
