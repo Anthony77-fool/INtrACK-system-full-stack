@@ -3,7 +3,7 @@ session_start();
 require_once '../conn/db_conn.php';
 header('Content-Type: application/json');
 
-// ✅ Check if user is logged in
+// ✅ Ensure user is logged in
 if (!isset($_SESSION['user_id'])) {
     echo json_encode([
         'status' => 'error',
@@ -12,13 +12,11 @@ if (!isset($_SESSION['user_id'])) {
     exit;
 }
 
-// ✅ Get passed data from JS
-$session_id = $_POST['sessionId'] ?? null;
+// ✅ Get POST data safely
 $student_id = $_POST['studentId'] ?? null;
-$remark     = $_POST['remark'] ?? null;
+$session_id = $_POST['sessionId'] ?? null;
 
-// ✅ Basic validation
-if (!$session_id || !$student_id || !$remark) {
+if (!$student_id || !$session_id) {
     echo json_encode([
         'status' => 'error',
         'message' => 'Missing required fields.'
@@ -26,11 +24,8 @@ if (!$session_id || !$student_id || !$remark) {
     exit;
 }
 
-// ✅ Upsert: update if exists, insert if not
-$sql = "INSERT INTO notes (session_id, student_id, remark) 
-        VALUES (?, ?, ?)
-        ON DUPLICATE KEY UPDATE remark = VALUES(remark)";
-
+// ✅ Prepare SQL query to get the remark
+$sql = "SELECT remark FROM notes WHERE student_id = ? AND session_id = ? LIMIT 1";
 $stmt = $conn->prepare($sql);
 
 if (!$stmt) {
@@ -41,19 +36,23 @@ if (!$stmt) {
     exit;
 }
 
-$stmt->bind_param("iis", $session_id, $student_id, $remark);
+$stmt->bind_param("ii", $student_id, $session_id);
+$stmt->execute();
+$result = $stmt->get_result();
 
-if ($stmt->execute()) {
+if ($row = $result->fetch_assoc()) {
+    // Remark exists
     echo json_encode([
         'status' => 'success',
-        'message' => 'Remark saved successfully.',
-        'studentId' => $student_id,
-        'sessionId' => $session_id
+        'hasRemark' => true,
+        'remark' => $row['remark']
     ]);
 } else {
+    // No remark found
     echo json_encode([
-        'status' => 'error',
-        'message' => 'Insert/update failed: ' . $stmt->error
+        'status' => 'success',
+        'hasRemark' => false,
+        'remark' => null
     ]);
 }
 

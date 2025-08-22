@@ -138,9 +138,9 @@
   <div class="modal fade" id="commentModal" tabindex="-1" aria-labelledby="commentModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content shadow-lg rounded-4">
-        <div class="modal-header bg-light">
+        <div class="modal-header bg-light d-flex justify-content-between">
           <h5 class="modal-title fw-bold" id="commentModalLabel">Add Remark</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          <i class="fa-solid fa-circle-xmark fs-1 text-success" type="button" data-bs-dismiss="modal" aria-label="Close" title="Exit Remark"></i>
         </div>
 
         <div class="modal-body">
@@ -156,9 +156,13 @@
           </form>
         </div>
 
+        <!-- Hidden Inputs: for storing certain id's -->
+        <input type="hidden" id="commentStudentId">
+        <input type="hidden" id="commentSessionId">
+
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary rounded-pill" data-bs-dismiss="modal">Cancel</button>
-          <button type="submit" form="commentForm" class="btn btn-success rounded-pill">Save</button>
+          <button type="button" class="btn btn-secondary rounded-pill" data-bs-dismiss="modal" title="Cancel Remark">Cancel</button>
+          <button type="submit" form="commentForm" class="btn btn-success rounded-pill" title="Save Remark">Save</button>
         </div>
       </div>
     </div>

@@ -78,9 +78,9 @@ $(document).ready(function(){
       .addClass("custom-shadow"); // ✅ add class here
   }
 
-  // Render attendance table
+  // Render the attendance table
   function renderAttendanceTable(data) {
-    // Build table wrapper + tbody
+    // Build the table skeleton with headers
     let tableHtml = `
       <table class="table table-borderless">
         <thead>
@@ -93,34 +93,23 @@ $(document).ready(function(){
           </tr>
         </thead>
         <tbody id="attendanceTableBody">
-          <!-- Rows will be inserted -->
         </tbody>
       </table>
     `;
 
-    // Inject the table into the section + add shadow
-    $("#attendanceSection")
-      .html(tableHtml)
-      .addClass("custom-shadow"); // ✅ add class here
+    // Inject the table into the page and add a shadow class for styling
+    $("#attendanceSection").html(tableHtml).addClass("custom-shadow");
 
-    // Populate tbody with students
     let $tableBody = $("#attendanceTableBody");
+
+    // Loop through all student data to build table rows
     data.forEach((student, index) => {
-      // ✅ Decide the comment icon color
-      let commentClass = (student.note_status === "ACTIVE") 
-          ? "cstm-view-icon"   // Active → styled class
-          : "custom-color";    // Inactive → fallback color
+      // Determine the circle color for Present/Absent
+      let presentIconClass = (student.status === "Present") ? "text-success" : "custom-color";
+      let absentIconClass  = (student.status === "ABSENT")  ? "text-success" : "custom-color";
 
-      // ✅ Decide which circle is highlighted based on student.status
-      let presentIconClass = (student.status === "Present") 
-          ? "text-success"     // Present → green
-          : "custom-color";    // Not present → gray
-
-      let absentIconClass = (student.status === "ABSENT") 
-          ? "text-success"     // Absent → green
-          : "custom-color";    // Not absent → gray
-
-      // ✅ Build row
+      // Append a new row for the student
+      // The Note cell gets a temporary spinner while we check for remarks
       $tableBody.append(`
         <tr>
           <td class="text-black-50 fw-bolder fs-6 text-center">${index + 1}</td>
@@ -131,15 +120,45 @@ $(document).ready(function(){
           <td class="text-center">
             <i class="fa-solid fa-circle ${absentIconClass} border border-2 p-1 rounded-circle fs-5 cursor-pointer"></i>
           </td>
-          <td class="text-center">
-            <i class="fa-solid fa-comments ${commentClass} fs-4 cursor-pointer" data-student-id="${student.student_id}"></i>
+          <td class="text-center" id="noteCell-${student.student_id}-${student.session_id}">
+            <i class="fa-solid fa-spinner fa-spin fs-5 text-muted"></i> <!-- temporary spinner -->
           </td>
         </tr>
       `);
+
+      // Call AJAX to check if a remark exists for this student/session
+      checkRemark(student.student_id, student.session_id);
     });
   }
 
+  // Check if a student has a remark and update the Note icon
+  function checkRemark(studentId, sessionId) {
+    $.ajax({
+      url: "php_reports/check-remark.php", // Your server endpoint
+      method: "POST",
+      dataType: "json",
+      data: { studentId, sessionId },
+      success: function(res) {
+        // Determine icon class based on whether a remark exists
+        let iconClass = res.hasRemark ? "cstm-view-icon" : "custom-color";
 
+        // Replace spinner with the correct comment icon
+        $(`#noteCell-${studentId}-${sessionId}`).html(`
+          <i class="fa-solid fa-comments ${iconClass} fs-4 cursor-pointer" 
+            data-student-id="${studentId}" 
+            data-session-id="${sessionId}"></i>
+        `);
+      },
+      error: function() {
+        // If AJAX fails, fallback to default gray icon
+        $(`#noteCell-${studentId}-${sessionId}`).html(`
+          <i class="fa-solid fa-comments custom-color fs-4 cursor-pointer" 
+            data-student-id="${studentId}" 
+            data-session-id="${sessionId}"></i>
+        `);
+      }
+    });
+  }
 
   // When "Generate Report" button is clicked
   $("#generateReport-btn").on("click", function () {
