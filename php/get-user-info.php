@@ -43,7 +43,7 @@
   }
 
   // --- Fetch user info ---
-  $sql = "SELECT firstName, middleName, lastName, phoneNumber, gender, address_id, birth_date_id FROM users WHERE user_id = ?";
+  $sql = "SELECT firstName, middleName, lastName, phoneNumber, gender, address_id, birth_date_id, profile_image_url FROM users WHERE user_id = ?";
   $stmt = mysqli_prepare($conn, $sql);
   if (!$stmt) {
       echo json_encode(['status' => 'error', 'message' => 'User statement preparation failed.']);
@@ -83,13 +83,22 @@
   $birthdate = "{$months[$birth['birthMonth']]} {$birth['birthDay']}, {$birth['birthYear']}";
   $age = calculateAge($birth['birthYear'], $birth['birthMonth'], $birth['birthDay']);
 
+  //this one checks if profile image is empty
+  if(!$user['profile_image_url']){
+    //set a default path
+    $user['profile_image_url'] = 'images/profileImg/default-profile-pic.png';
+  }
+
   // --- Assemble user data ---
   $userData = [
       'fullname' => $fullname,
       'user_id' => $user_id,
-      'role' => 'Adviser', // Static for now
+      'role' => 'Adviser', // Static
       'gender' => $user['gender'],
       'age' => $age,
+      'birthMonth' => $months[$birth['birthMonth']], //to be used for editing
+      'birthDay' => $birth['birthDay'], //to be used for editing
+      'birthYear' => $birth['birthYear'], //to be used for editing
       'birthdate' => $birthdate,
       'phone' => $user['phoneNumber'],
       'email' => $account['email'],
@@ -99,8 +108,7 @@
         'province_code' => $address['province_code']
       ],
       'about' => 'INtrACK is a QR code-based attendance system designed to simplify and speed up the process of tracking student attendance. It allows teachers to scan student QR codes for real-time logging, reducing manual errors and paperwork. The system features user profiles, secure access for advisers, and organized attendance records for easy monitoring and reporting.',
-      'profileImg' => 'images/profileImg/Sabado-Marck-Anthony.png', // Static path
-      'password' => $account['password'] // ⚠️ For demo only – avoid in production
+      'profileImg' => $user['profile_image_url'], // Dynamic path
   ];
 
   // Return JSON response

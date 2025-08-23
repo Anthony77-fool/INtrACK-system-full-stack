@@ -71,6 +71,38 @@
     require_once 'includes_php/Aside-Bar.php'; // Include the Aside Bar
   ?>
 
+  <!-- Profile Picture Modal -->
+  <div class="modal fade" id="uploadProfilePicModal" tabindex="-1" aria-labelledby="uploadProfilePicLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        
+        <!-- Modal Header -->
+        <div class="modal-header d-flex justify-content-between">
+          <h5 class="modal-title" id="uploadProfilePicLabel">Upload Profile Picture</h5>
+          <i class="fa-solid fa-circle-xmark fs-1 text-success" type="button" data-bs-dismiss="modal" aria-label="Close" title="Exit"></i>
+        </div>
+
+        <!-- Modal Body -->
+        <div class="modal-body text-center">
+          <div class="mb-3">
+            <!-- Preview Area -->
+            <img id="previewImage" src="" class="rounded-circle border mb-3" style="width: 250px; height: 250px; object-fit: cover;">
+          </div>
+          <!-- File Input -->
+          <input type="file" id="profilePicInput" class="form-control" accept="image/*">
+        </div>
+
+        <!-- Modal Footer -->
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" title="Cancel">Cancel</button>
+          <button type="button" class="btn btn-success" id="saveProfilePic" title="Save Picture">Save</button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+
   <script src="js/sySelect.js"></script><!-- for the class management s.y. selection -->
   <script src="js/calendar.js"></script><!-- for the calendar "ASIDE" -->
   <script src="js/tooltip.js"></script>
@@ -86,21 +118,8 @@
   <!-- for logout -->
   <script src="js_backend/log-out.js"></script>
 
-  <!-- for toggeling password -->
-  <script>
-    $(document).on('click', '#togglePassword', function () {
-      const passwordInput = $('#password');
-      const type = passwordInput.attr('type') === 'password' ? 'text' : 'password';
-      passwordInput.attr('type', type);
-
-      // Toggle icon
-      $(this).html(
-        type === 'password'
-          ? '<i class="fa-solid fa-eye"></i>'
-          : '<i class="fa-solid fa-eye-slash"></i>'
-      );
-    });
-  </script>
+  <!-- JS for editing the profile user details -->
+  <script src="js_backend/edit-settings-details.js"></script>
 
 </body>
 </html>
