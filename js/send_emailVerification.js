@@ -15,6 +15,7 @@ $(document).ready(function () {
   sendBtn.on('click', function () {
     const email = emailInput.val().trim();
     const isValidEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+    const formType = $("#form-type").val(); // only for change-password
 
     if (!email || !isValidEmail) {
       emailInput.addClass('is-invalid shake').removeClass('is-valid');
@@ -26,6 +27,19 @@ $(document).ready(function () {
     } else {
 
       console.log("Email to be verified:", email);
+
+      //check if it is change password
+      if(formType === "change-password"){
+        if(!verifyEmail(email)){
+          $("#emailNotFoundModal").modal("show");
+          return;
+        }
+        // ✅ If we’re here, email exists → just proceed
+        emailInput.removeClass("is-invalid").addClass("is-valid");
+        emailFeedback.hide();
+        modal.modal("show");
+        return; // prevent running second AJAX
+      }
 
       // Send AJAX request to PHP to verify email
       $.ajax({
@@ -110,24 +124,31 @@ $(document).ready(function () {
     });
   }
 
-
+  //show modal for otp
   modal.on('shown.bs.modal', function () {
     startTimer(60);
     generateVerificationCode();
     clearOtpBoxes();
   });
 
+  //exit modal icon
   exitModalIcon.on('click', function () {
     clearInterval(countdown);
     $("#timer").text("00:00");
     clearOtpBoxes();
   });
 
+  //the resend btn in the modal
   resendBtn.on('click', function () {
     startTimer(60);
     generateVerificationCode();
     clearOtpBoxes();
     alert("A new OTP has been sent to your email.");
+  });
+
+  //goes to verify email .php to create an account
+  $("#go-register-btn").on("click", function () {
+    window.location.href = "verify-email.php";
   });
 
   // OTP input logic
@@ -188,5 +209,36 @@ $(document).ready(function () {
       }, 2000);
     }
   });
+
+  //function for verifying email
+  function verifyEmail(email) {
+    let result = false;
+
+    $.ajax({
+      url: "php/check-existing-email.php",
+      method: "POST",
+      data: { email: email },
+      async: false, // 🔴 makes the request synchronous (blocks UI)
+      success: function (response) {
+        console.log("Change-password email check:", response);
+        if (response === "exists") {
+          result = true; // email found
+        } else {
+          result = false; // email not found
+        }
+      },
+      error: function (xhr, status, error) {
+        console.error("AJAX Error:", {
+          status: status,
+          error: error,
+          response: xhr.responseText
+        });
+        alert("Server error occurred while checking email.");
+        result = false;
+      }
+    });
+
+    return result;
+  }
 
 });

@@ -11,8 +11,7 @@ $(document).ready(function () {
       if (data.status === 'success') {
         
         const user = data.user;
-        convertAddress(user.address); 
-        console.log(convertAddress(user.address));
+        convertAddress(user.address);
 
         const html = `
           <section class="custom-shadow pt-4 pb-5 px-3 container">
@@ -64,11 +63,8 @@ $(document).ready(function () {
               <div class="col-4">
                 <label for="password" class="form-label fw-bold fs-5">Password</label>
                 <div class="input-group">
-                  <input type="password" id="password" class="form-control" value="${user.password}" disabled>
-                  <button class="btn btn-outline-secondary" type="button" id="togglePassword" title="Show/Hide Password">
-                    <i class="fa-solid fa-eye" id="eyeIcon"></i>
-                  </button>
-                  <button class="btn btn-outline-success" type="button" id="changePassword" title="Change Password" onclick="location.href='change-password.html'">
+                  <input type="password" id="password" class="form-control" value="hashed-password" disabled>
+                  <button class="btn btn-outline-success" type="button" id="changePassword" title="Change Password" onclick="location.href='change-password.php'">
                     <i class="fa-solid fa-key"></i>
                   </button>
                 </div>

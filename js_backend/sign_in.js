@@ -46,7 +46,7 @@ $(document).ready(function() {
           
           if (response.status === 'success') {//successful login
             // Redirect to dashboard
-            window.location.href = 'settings.php'; // or wherever you want to go
+            window.location.href = 'class-management.php'; // or wherever you want to go
 
           } else {
             //accont does not exist

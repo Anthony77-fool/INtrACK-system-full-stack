@@ -171,8 +171,51 @@
     </div>
   </div>
 
+  <!-- Email Not Found Modal -->
+  <div class="modal fade" id="emailNotFoundModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content rounded-4 shadow">
+        <div class="modal-header d-flex justify-content-between">
+          <h5 class="modal-title text-danger fw-bold">Account Not Found</h5>
+          <i class="fa-solid fa-circle-xmark fs-1 text-success" type="button" data-bs-dismiss="modal" aria-label="Close" title="Exit Remark"></i>
+        </div>
+        <div class="modal-body text-center">
+          <p>You do not have an account yet! Please register first.</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" id="go-register-btn" class="btn btn-danger" data-bs-dismiss="modal">
+            Create an Account
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Password Changed Success Modal -->
+  <div class="modal fade" id="passwordChangedModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content rounded-4 shadow">
+        <div class="modal-header d-flex justify-content-between">
+          <h5 class="modal-title text-success fw-bold">Password Changed</h5>
+          <i class="fa-solid fa-circle-xmark fs-1 text-success" type="button" data-bs-dismiss="modal" aria-label="Close" title="Exit Remark"></i>
+        </div>
+        <div class="modal-body text-center">
+          <p>Your password has been successfully changed. Please log in with your new password.</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" id="proceed-btn" class="btn btn-success" data-bs-dismiss="modal">
+            Proceed to Login
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- HIDDEN INPUT: For change password page -->
+  <input type="hidden" id="form-type" value="change-password">
+
   <script src="js/send_emailVerification.js"></script>
-  <script src="js/change-password.js"></script>
+  <script src="js_backend/change-password.js"></script>
 
   <!-- EMAIL JS For sending email verification otps -->
   <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>

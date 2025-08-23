@@ -15,18 +15,26 @@
   $user_id = $_SESSION['user_id'];
 
   try {
-      $sql = "SELECT firstName, lastName FROM users WHERE user_id = ?";
+      $sql = "SELECT firstName, lastName, profile_image_url FROM users WHERE user_id = ?";
       $stmt = $conn->prepare($sql);
       $stmt->bind_param("i", $user_id);
       $stmt->execute();
       $result = $stmt->get_result();
 
       if ($row = $result->fetch_assoc()) {
-          echo json_encode([
-              'status' => 'success',
-              'firstName' => $row['firstName'],
-              'lastName' => $row['lastName']
-          ]);
+
+          // If profile_image_url is null or empty, set default
+          if (empty($row['profile_image_url'])) {
+              $row['profile_image_url'] = 'images/profileImg/default-profile-pic.png';
+          }
+
+        echo json_encode([
+            'status' => 'success',
+            'firstName' => $row['firstName'],
+            'lastName' => $row['lastName'],
+            'profile_image_url' => $row['profile_image_url']
+        ]);
+
       } else {
           echo json_encode([
               'status' => 'error',
