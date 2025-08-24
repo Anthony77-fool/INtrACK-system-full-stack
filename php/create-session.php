@@ -32,7 +32,8 @@
         echo json_encode([
             'status' => 'success',
             'message' => 'Session created successfully',
-            'session_id' => $session_id
+            'session_id' => $session_id,
+            'class_id' => $class_id
         ]);
     } else {
         echo json_encode([

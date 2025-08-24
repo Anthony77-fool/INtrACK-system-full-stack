@@ -2,9 +2,10 @@ $(document).ready(function () {
   let lastResult = '';
   let scanCount = 0; // Global count that persists
   let qrScannerInstance = null;
-  //get the session_id passed at the search bar
+  //get the session & class id passed at the search bar
   const urlParams = new URLSearchParams(window.location.search);
   const sessionId = urlParams.get("session_id");
+  const classId = urlParams.get("class_id");
 
   // Start the QR scanner
   function startScanner() {
@@ -28,6 +29,7 @@ $(document).ready(function () {
 									dataType: "json",
 									data: {
 											session_id: sessionId,
+                      class_id: classId,
 											student_id: decodedText, // QR code contains student_id
 											date_created: new Date().toISOString().slice(0, 19).replace('T', ' ') // Format: YYYY-MM-DD HH:MM:SS
 									},
@@ -62,6 +64,10 @@ $(document).ready(function () {
 
 											}
 											else {
+                          //if student does not belong to this class
+                          // Inject message into modal
+                          $("#errorModalMessage").text(response.message);
+                          $("#errorModal").modal("show");
 													console.error("Error:", response.message);
 											}
 									},
@@ -88,14 +94,6 @@ $(document).ready(function () {
 		const currentDate = new Date();
 		const date = currentDate.toLocaleDateString();
 		const time = currentDate.toLocaleTimeString();
-
-		// ✅ Log dynamic values before sending
-		console.log("📌 Sending Attendance Email with values:");
-		console.log("Student Fullname:", studentName);
-		console.log("Parent Email:", parentEmail);
-		console.log("Current Date:", date);
-		console.log("Current Time:", time);
-		console.log("IN/OUT Status:", inOutStatus);
 		
 		emailjs.send("service_xs6nj8f", "template_utmfizu", {
 			student_fullname: studentName,

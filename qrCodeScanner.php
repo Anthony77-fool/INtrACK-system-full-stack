@@ -163,6 +163,24 @@
     </div>
   </div>
 
+  <!-- Modal: General Error -->
+  <div class="modal fade" id="errorModal" tabindex="-1" aria-labelledby="errorModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+
+        <div class="modal-header bg-danger text-white d-flex justify-content-between">
+          <h5 class="modal-title" id="errorModalLabel">Error</h5>
+          <!-- Custom close icon -->
+          <i class="fa-solid fa-circle-xmark fs-2 cursor-pointer" data-bs-dismiss="modal" aria-label="Close" role="button" title="Close Modal"></i>
+        </div>
+
+        <div class="modal-body text-center fs-5 cstm-lttr-spcng" id="errorModalMessage">
+          <!-- Error message goes here dynamically -->
+        </div>
+      </div>
+    </div>
+  </div>
+
   <script src="js/tooltip.js"></script><!-- ToolTip js -->
 
   <!-- EMAIL JS For sending email verification otps -->
