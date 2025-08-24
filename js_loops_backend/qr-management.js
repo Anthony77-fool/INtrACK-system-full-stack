@@ -54,13 +54,15 @@ $(document).ready(function() {
 					success: function(response) {
 							if (response.status === "success") {
 									let sessionId = response.session_id; // Now you have the ID
+									let classId =  response.class_id;
 
 									let modal = new bootstrap.Modal(document.getElementById("sessionSuccessModal"));
 									modal.show();
 
 									// Redirect after modal is closed, passed also session id
 									document.getElementById("sessionSuccessModal").addEventListener("hidden.bs.modal", function () {
-											window.location.href = "qrCodeScanner.php?session_id=" + sessionId;
+											//passing session & class id to qrCodeScanner
+											window.location.href = "qrCodeScanner.php?session_id=" + sessionId + "&class_id=" + classId;
 									});
 							} else {
 									alert("Error: " + response.message);
